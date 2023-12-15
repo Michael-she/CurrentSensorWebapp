@@ -1,8 +1,16 @@
 {
 
   "dependencies": {
-    "express": "^4.17.1"
 
+    "dotenv": "^16.3.1",
+
+    "express": "^4.17.1",
+
+    "mysql": "^2.18.1",
+
+    "mysql2": "^3.6.5"
 
   }
+
 }
+

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Virtual Device Manager</title>
+    <style>
+        /* Add your CSS styling here */
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .device-block {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 9px #999;
+        }
+        
+        .button:hover {background-color: #3e8e41}
+        
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+    </style>
+</head>
+<body>
+    <a href="/landingPage" class="button">Go to Monitoring Page</a>
+    <button id="createDevice">Create Virtual Device</button>
+    <div id="deviceContainer" class="device-grid">
+        <!-- Virtual devices will appear here -->
+    </div>
+    
+    <script>
+        
+        fetch('/getIOTDevices').then(
+          
+				response => response.text())
+			.then(data => {
+
+				devices = JSON.parse(data);
+
+                console.log(devices)
+
+
+                for(let i = 0; i<devices.length; i++){
+
+
+                    let deviceBlock = document.createElement('div');
+            deviceBlock.className = 'device-block';
+            deviceBlock.innerHTML = `
+            <h3>Device ID: ${devices[i].ID}</h3>
+            <input type="text" id="input${devices[i].ID}" placeholder="Enter number">
+            <button onclick="sendData(${devices[i].ID})">Send</button>
+            `;
+            document.getElementById('deviceContainer').appendChild(deviceBlock);
+
+
+                }
+            }
+            )
+
+
+
+
+        
+        document.getElementById('createDevice').addEventListener('click', function() {
+            createVirtualDevice();
+        });
+        
+        let deviceId = 0;
+        
+        function createVirtualDevice() {
+            deviceId = getRandomInt();
+            let deviceBlock = document.createElement('div');
+            deviceBlock.className = 'device-block';
+            deviceBlock.innerHTML = `
+            <h3>Device ID: ${deviceId}</h3>
+            <input type="text" id="input${deviceId}" placeholder="Enter number">
+            <button onclick="sendData(${deviceId})">Send</button>
+            `;
+            document.getElementById('deviceContainer').appendChild(deviceBlock);
+            saveVirtualDevice(deviceId);
+        }
+        
+        function saveVirtualDevice(id) {
+            console.log(JSON.stringify({ id: id }))
+            fetch('/saveVirtualDevice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: id }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Device saved:', data);
+            })
+            .catch((error) => {
+                console.error('Error saving device:', error);
+            });
+        }
+        
+        
+        function sendData(id) {
+            let inputValue = document.getElementById('input' + id).value;
+            if(isNaN(inputValue)) {
+                alert("Please enter a valid number");
+                return;
+            }
+            fetch('/input', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: id, reading: inputValue }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        
+        
+        function getRandomInt() {
+            const min = 0;
+            const max = Number.MAX_SAFE_INTEGER;
+            return Math.floor(Math.random() * (max - min) + min);
+        }
+        
+    </script>
+</body>
+</html>
