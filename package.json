@@ -2,7 +2,7 @@
   "name": "currentsensorwebapp",
   "version": "1.0.0",
   "scripts": {
-    "start": "function.js"
+    "start": "index.js"
   },
   "dependencies": {}
 }
