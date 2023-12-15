@@ -14,11 +14,13 @@ const port = 3000;
 app.get('/landingPage', (req, res) => {
 
     const filePath = path.join(__dirname, 'landingPage.html');
+    console.log(filePath);
     res.sendFile(filePath);
 });
 
 app.get('/', (req, res) => {
     console.log("Default endpoint reached");
+
 res.redirect("/landingPage");
 
 })
