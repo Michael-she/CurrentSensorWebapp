@@ -98,7 +98,7 @@ app.post('/input', (req, res) => {
     
     if(deviceIDs.some(element => element == id)){
         
-        const sql = `INSERT INTO IOTReadings (ID, AMPS, dateRecieved) VALUES ('${id}', '${reading}', '${dateTimeNow}');`
+        const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved) VALUES ('${id}', '${reading}', '${dateTimeNow}');`
         
         
         console.log(sql)
@@ -117,6 +117,7 @@ app.post('/input', (req, res) => {
         });
         
     }else{
+        deviceIDs[deviceIDs.length] = id;
         const lat = 0, long = 0;
         
         console.log("The dark path - DEVICE NOT RECOCNISED");
@@ -225,18 +226,9 @@ chacheHit = true;
 const currentDate = new Date();
     
 // Pad the month and day with a leading zero if they are less than 10
-const dateNow = currentDate.getFullYear() + '-' +
-('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
-('0' + currentDate.getDate()).slice(-2);
-
-const timeNow = currentDate.getHours() + '-' +
-('0' + (currentDate.getMinutes() + 1)).slice(-2) + '-' +
-('0' + currentDate.getSeconds()).slice(-2);
-
-const dateTimeNow = dateNow +" "+timeNow;
 
 
-readingsCache[i].dateRecieved = dateTimeNow;
+readingsCache[i].dateRecieved = currentDate;
 console.log("CACHE HIT")
 }
 
@@ -247,10 +239,9 @@ console.log("CACHE HIT")
 
 
 
-if(!cacheHit){
+if(!chacheHit){
     console.log("NO CACHE HIT")
-    readingsCache[readingsCache.length].ID = id;
-    readingsCache[readingsCache.length].reading = reading;
+    
 
     chacheHit = true;
     const currentDate = new Date();
@@ -267,7 +258,11 @@ if(!cacheHit){
     const dateTimeNow = dateNow +" "+timeNow;
     
     
-    readingsCache[readingsCache.length].dateRecieved = dateTimeNow;
+    readingsCache[readingsCache.length]={
+        ID: id,
+        reading: reading,
+        dateRecieved: dateTimeNow
+    } ;
 
 
 }

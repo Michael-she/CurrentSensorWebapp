@@ -67,10 +67,14 @@
     
     var deviceIDs= [];
     var deviceCache = [];
+    
 
 
+
+    
+    
     setInterval(updateTime, 900);
-
+    setInterval(updateReadings, 10000)
 
     
 
@@ -137,6 +141,8 @@
             
             
         }
+
+        updateReadings()
     }
     )
 
@@ -192,19 +198,47 @@
     }
 
 
-
+    
 
     function updateReadings(){
 
 
-        fetch('/clientUpdater').then(
+        fetch('/getReadings').then(
     
     response => response.text())
     .then(data => {
         
-        devices = JSON.parse(data);
+        readings = JSON.parse(data);
         
-        console.log(devices)
+        console.log(readings)
+
+
+
+
+
+        for(let i = 0; i<readings.length; i++){
+
+            document.getElementById(`CurrentDisp${readings[i].ID}`).innerHTML = `${readings[i].reading}A`
+
+
+            for(let j = 0; j<deviceCache.length; j++){
+                    if((readings[i].ID) == deviceCache[j].ID){
+
+                        deviceCache[j].LastContacted = readings[i].dateRecieved;
+
+
+
+                    }
+
+
+
+            }
+
+
+            document.getElementById(`LCDisp${deviceIDs[i]}`).innerHTML = getElapsedTime(deviceCache[i].LastContacted, new Date)
+
+
+        }
 
     }
     )
