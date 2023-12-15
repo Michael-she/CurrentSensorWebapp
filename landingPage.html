@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number in a Block</title>
+    <style>
+        .number-block {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="number-block">
+        <div id="currentSenseNumber" ></div>
+    </div>
+</body>
+</html>
+
+
+
+
+<script>
+
+fetch("/getDevices")
+  .then(response => {
+    // Check if the request was successful
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    // Parse the JSON response
+    return response.json();
+  })
+  .then(data => {
+    
+    for(int i = 0)
+    
+
+    
+  })
+  .catch(error => {
+    // Handle any errors
+    console.error('There has been a problem with your fetch operation:', error);
+  });
+
+
+</script>

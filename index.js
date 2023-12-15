@@ -11,15 +11,23 @@ const port = 3000;
 //app.use(express.json());
 
 // GET request handler
-app.get('/hello', (req, res) => {
-    res.send('Hello, world!');
+app.get('/landingPage', (req, res) => {
+    res.sendFile('landingPage.html');
 });
 
 app.get('/', (req, res) => {
     console.log("Default endpoint reached");
-res.send("Default");
+res.redirect("/landingPage");
 
 })
+
+
+app.get('/', (req, res) => {
+    console.log("Default endpoint reached");
+res.redirect("/landingPage");
+
+})
+
 
 // POST request handler
 app.post('/data', (req, res) => {
