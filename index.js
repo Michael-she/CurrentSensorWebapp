@@ -246,22 +246,12 @@ if(!chacheHit){
     chacheHit = true;
     const currentDate = new Date();
         
-    // Pad the month and day with a leading zero if they are less than 10
-    const dateNow = currentDate.getFullYear() + '-' +
-    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
-    ('0' + currentDate.getDate()).slice(-2);
-    
-    const timeNow = currentDate.getHours() + '-' +
-    ('0' + (currentDate.getMinutes() + 1)).slice(-2) + '-' +
-    ('0' + currentDate.getSeconds()).slice(-2);
-    
-    const dateTimeNow = dateNow +" "+timeNow;
-    
+   
     
     readingsCache[readingsCache.length]={
         ID: id,
         reading: reading,
-        dateRecieved: dateTimeNow
+        dateRecieved: currentDate
     } ;
 
 
