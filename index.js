@@ -12,7 +12,9 @@ const port = 3000;
 
 // GET request handler
 app.get('/landingPage', (req, res) => {
-    res.sendFile('landingPage.html');
+
+    const filePath = path.join(__dirname, 'landingPage.html');
+    res.sendFile(filePath);
 });
 
 app.get('/', (req, res) => {
