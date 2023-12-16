@@ -146,35 +146,11 @@ app.post('/input', (req, res) => {
 
 app.post('/inputCSV', (req, res) => {
     const csvData = req.body;
+    console.log("CSV DATA!");
     console.log(csvData);
     const results = [];
 
-    // csvData.pipe(csvParser())
-    //     .on('data', (data) => results.push(data))
-    //     .on('end', () => {
-    //         results.forEach(row => {
-    //             const id = row.id;
-    //             const reading = row.reading;
-
-    //             updateReadingsCache(id, reading);
-    //             console.log(reading);
-    //             const currentDate = new Date();
-    //             const dateTimeNow = currentDate.toISOString().split('T').join(' ').split('.')[0];
-
-    //             if (deviceIDs.includes(id)) {
-    //                 // Insert into IOTReadings
-    //                 // Your SQL query execution code here
-    //             } else {
-    //                 deviceIDs.push(id);
-    //                 const lat = 0, long = 0;
-
-    //                 // Insert into IOTDevices
-    //                 // Your SQL query execution code here
-    //             }
-    //         });
-
-    //         res.json({ ack: results.length });
-    //     });
+   
 });
 
 app.post('/saveVirtualDevice', (req, res) => {
