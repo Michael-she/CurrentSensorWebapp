@@ -75,6 +75,9 @@ app.get('/getReadings', (req, res) => {
 // POST request handler
 app.post('/input', (req, res) => {
     
+
+
+    console.log(req.body);
     const {id, reading} = req.body;
     
     updateReadingsCache(id, reading);

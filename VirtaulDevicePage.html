@@ -120,7 +120,10 @@
         
         
         function sendData(id) {
+            
             let inputValue = document.getElementById('input' + id).value;
+
+            console.log(JSON.stringify({ id: id, reading: inputValue }));
             if(isNaN(inputValue)) {
                 alert("Please enter a valid number");
                 return;
@@ -131,6 +134,8 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ id: id, reading: inputValue }),
+
+                
             })
             .then(response => response.json())
             .then(data => {
