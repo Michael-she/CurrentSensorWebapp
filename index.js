@@ -11,7 +11,7 @@ const mysql = require('mysql2'); //Package for mySQL
 const { time } = require('console');
 
 require('dotenv').config(); //package to use the ENV file
-
+app.use(express.text());
 app.use(bodyParser.urlencoded({ extended: true })); // Set up middleware to parse incoming requests as JSON
 app.use(bodyParser.json());
 
@@ -25,6 +25,12 @@ const csvParser = require('csv-parser');
 const connection = mysql.createConnection(process.env.DATABASE_URL); // Gets the URL of the database from the PlanetScale envyroment variable, allowing the connection to be made while keeping the secret key a secret
 connection.connect(); // Initializes connection to the PlanetScale API.
 
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // allows requests from any origin
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 
 
 
@@ -40,14 +46,14 @@ startUp();
 app.get('/landingPage', (req, res) => {
     
     const filePath = path.join(__dirname, 'landingPage.html');
-    console.log(filePath);
+    //console.log(filePath);
     res.sendFile(filePath);
 });
 
 app.get('/VirtaulDevicePage', (req, res) => {
     
     const filePath = path.join(__dirname, 'VirtaulDevicePage.html');
-    console.log(filePath);
+   // console.log(filePath);
     res.sendFile(filePath);
 });
 
@@ -60,14 +66,14 @@ app.get('/', (req, res) => {
 
 
 app.get('/', (req, res) => {
-    console.log("Default endpoint reached");
+  
     res.redirect("/landingPage");
     
 })
 
 
 app.get('/getReadings', (req, res) => {
-    console.log("Default endpoint reached");
+   
     res.send(readingsCache);
     
 })
@@ -77,11 +83,11 @@ app.get('/getReadings', (req, res) => {
 // POST request handler
 app.post('/input', (req, res) => {
     
-
+console.log("INPUT")
 
    // console.log(req.body);
     
-    /*const {id, reading} = req.body;
+    const {id, reading} = req.body;
     
     updateReadingsCache(id, reading);
 
@@ -107,7 +113,7 @@ app.post('/input', (req, res) => {
         const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved) VALUES ('${id}', '${reading}', '${dateTimeNow}');`
         
         
-        console.log(sql)
+        //console.log(sql)
         
         connection.query(sql, function (err, rows, fields) { //Execute the SQL query
             if (err) {
@@ -141,15 +147,17 @@ app.post('/input', (req, res) => {
         });
         
         
-    }*/
+    }
 });
 
 app.post('/inputCSV', (req, res) => {
-    const csvData = req;
     console.log("CSV DATA!");
+    const csvData = req.body;
+   
     console.log(csvData);
     const results = [];
 
+  
    
 });
 
@@ -179,16 +187,16 @@ app.post('/saveVirtualDevice', (req, res) => {
     deviceIDs[deviceIDs.length] = id;
     
     
-    console.log(dateNow)
+    //console.log(dateNow)
     
     const sql = `INSERT INTO IOTDevices (ID, LastContacted, DateAdded, latitude, longitude) VALUES ('${id}', '${dateTimeNow}', '${dateTimeNow}', '${lat}', '${long}');`
     
     
-    console.log(sql)
+   // console.log(sql)
     
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
-            console.log(err);
+            //console.log(err);
             throw (err); //If an error occours, throw the error to prevent the program from crashing
         }
     });
@@ -201,15 +209,15 @@ app.get('/getIOTDevices', (req, res) => {
     const sql = `SELECT * FROM IOTDevices;`
     
     
-    console.log(sql)
+    //console.log(sql)
     
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
-            console.log(err);
+           // console.log(err);
             throw (err); //If an error occours, throw the error to prevent the program from crashing
         }
         
-        console.log(rows)
+       // console.log(rows)
         
         res.send(rows);
     });
@@ -286,7 +294,7 @@ function startUp(){
             throw (err); //If an error occours, throw the error to prevent the program from crashing
         }
         
-        console.log(rows)
+        //console.log(rows)
         
         for(let i  = 0 ; i<rows.length; i++){
             

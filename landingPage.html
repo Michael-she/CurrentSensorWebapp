@@ -52,6 +52,8 @@
 </head>
 <body>
     <a href="/VirtaulDevicePage" class="button">Go to Virtual Devices</a>
+    <button onclick="sendStringToServer()">Click Me</button>
+
     <div id="deviceDiv">
         
     </div>
@@ -204,7 +206,32 @@
     }
     
     
-    
+    function sendStringToServer() {
+            
+            
+           
+            fetch('/inputCSV', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+                body: "HEllo",
+                
+                
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(JSON.stringify({ id: id, reading: inputValue }))
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+// Usage
+
+
     
     function updateReadings(){
         
