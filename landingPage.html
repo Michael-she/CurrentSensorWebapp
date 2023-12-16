@@ -68,17 +68,17 @@
     var deviceIDs= [];
     var deviceCache = [];
     
-
-
-
+    
+    
+    
     
     
     setInterval(updateTime, 900);
     setInterval(updateReadings, 10000)
-
     
-
-
+    
+    
+    
     fetch('/getIOTDevices').then(
     
     response => response.text())
@@ -112,7 +112,7 @@
             console.log(getElapsedTime( devices[i].LastContacted, currentDate ))
             
             document.getElementById("deviceDiv").innerHTML += `
-            <div class="number-block">
+            <div class="number-block" id = "numberBlock${devices[i].ID}">
                 
                 <div class = "dataContainer">
                     <div >
@@ -129,7 +129,7 @@
                     
                     <div>
                         
-                        <t id ="LCDisp${devices[i].ID}" >${getElapsedTime( devices[i].LastContacted, currentDate )}</t>
+                        <t id ="LCDisp${devices[i].ID}" >${getElapsedTime( devices[i].LastContacted, currentDate , devices[i].ID)}</t>
                     </div>
                     
                     
@@ -141,22 +141,22 @@
             
             
         }
-
+        
         updateReadings()
     }
     )
-
-
-
-
-
     
     
     
     
     
     
-    function getElapsedTime(dateString1, dateString2) {
+    
+    
+    
+    
+    
+    function getElapsedTime(dateString1, dateString2, id) {
         // Convert strings to Date objects
         var date1 = new Date(dateString1);
         var date2 = new Date(dateString2);
@@ -178,71 +178,115 @@
         // Format output
         var elapsedTime = '';
         if (days > 0) {
-            elapsedTime = `${days} day${days > 1 ? 's' : ''}`;
+            elapsedTime = `${days} day${days > 1 ? 's' : ''}, ${hours} hour${hours > 1 ? 's' : ''}`;
+            setBlockGrey(id);
         } else if (hours > 0) {
-            elapsedTime = `${hours} hour${hours > 1 ? 's' : ''}`;
+            elapsedTime = `${hours} hour${hours > 1 ? 's' : ''}, ${minutes} minute${minutes > 1 ? 's' : ''}` ;
+            
+            
+            setBlockGrey(id);
+            
+            
         } else {
             elapsedTime = `${minutes} minute${minutes > 1 ? 's' : ''}, ${seconds} second${seconds > 1 ? 's' : ''}`;
         }
         
         return elapsedTime;
     }
-
+    
     function updateTime(){
         for(let i = 0; i<deviceIDs.length; i++){
-
-            document.getElementById(`LCDisp${deviceIDs[i]}`).innerHTML = getElapsedTime(deviceCache[i].LastContacted, new Date)
-
-
+            
+            document.getElementById(`LCDisp${deviceIDs[i]}`).innerHTML = getElapsedTime(deviceCache[i].LastContacted, new Date, deviceIDs[i])
+            
+            
         }
     }
-
-
     
-
+    
+    
+    
     function updateReadings(){
-
-
+        
+        
         fetch('/getReadings').then(
-    
-    response => response.text())
-    .then(data => {
         
-        readings = JSON.parse(data);
-        
-        console.log(readings)
-
-
-
-
-
-        for(let i = 0; i<readings.length; i++){
-
-            document.getElementById(`CurrentDisp${readings[i].ID}`).innerHTML = `${readings[i].reading}A`
-
-
-            for(let j = 0; j<deviceCache.length; j++){
+        response => response.text())
+        .then(data => {
+            
+            readings = JSON.parse(data);
+            
+            console.log(readings)
+            
+            
+            
+            
+            
+            for(let i = 0; i<readings.length; i++){
+                
+                document.getElementById(`CurrentDisp${readings[i].ID}`).innerHTML = `${readings[i].reading}A`
+                
+                if(readings[i].reading>15){
+                    
+                    setBlockOrange(readings[i].ID);
+                    
+                }if(readings[i].reading>20){
+                    setBlockRed(readings[i].ID)
+                    
+                }
+                
+                for(let j = 0; j<deviceCache.length; j++){
                     if((readings[i].ID) == deviceCache[j].ID){
-
+                        
                         deviceCache[j].LastContacted = readings[i].dateRecieved;
-
-
-
+                        
+                        
+                        
                     }
-
-
-
+                    
+                    
+                    
+                }
+                
+                
+                document.getElementById(`LCDisp${deviceIDs[i]}`).innerHTML = getElapsedTime(deviceCache[i].LastContacted, new Date)
+                
+                
             }
-
-
-            document.getElementById(`LCDisp${deviceIDs[i]}`).innerHTML = getElapsedTime(deviceCache[i].LastContacted, new Date)
-
-
+            
         }
-
+        )
     }
-    )
+    
+    
+    function setBlockGrey(divId) {
+        var element = document.getElementById(`numberBlock${divId}`);
+        if (element) {
+            element.style.backgroundColor = "grey";
+        } else {
+            console.log("Element with ID '" + divId + "' not found.");
+        }
     }
+    
+    function setBlockOrange(divId) {
+        var element = document.getElementById(`numberBlock${divId}`);
+        if (element) {
+            element.style.backgroundColor = "orange";
+        } else {
+            console.log("Element with ID '" + divId + "' not found.");
+        }
+    }
+    function setBlockRed(divId) {
+        var element = document.getElementById(`numberBlock${divId}`);
+        if (element) {
+            element.style.backgroundColor = "red";
+        } else {
+            console.log("Element with ID '" + divId + "' not found.");
+        }
+    }
+    
+    
+    
     
     
 </script>
