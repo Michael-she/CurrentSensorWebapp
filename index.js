@@ -163,6 +163,10 @@ app.post('/inputCSV', (req, res) => {
     const id = dataArr[0];
     const reading = dataArr[1];
 
+    updateReadingsCache(id, reading);
+
+    
+    const currentDate = new Date();
  // Pad the month and day with a leading zero if they are less than 10
  const dateNow = currentDate.getFullYear() + '-' +
  ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
