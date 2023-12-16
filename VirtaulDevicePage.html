@@ -134,11 +134,12 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ id: id, reading: inputValue }),
-
+                
                 
             })
             .then(response => response.json())
             .then(data => {
+                console.log(JSON.stringify({ id: id, reading: inputValue }))
                 console.log('Success:', data);
             })
             .catch((error) => {
