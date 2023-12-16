@@ -157,6 +157,69 @@ app.post('/inputCSV', (req, res) => {
     console.log(csvData);
     
 
+    const dataArr=csvData.split(",");
+
+
+    const id = dataArr[0];
+    const reading = dataArr[1];
+
+ // Pad the month and day with a leading zero if they are less than 10
+ const dateNow = currentDate.getFullYear() + '-' +
+ ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+ ('0' + currentDate.getDate()).slice(-2);
+ 
+ const timeNow = currentDate.getHours() + '-' +
+ ('0' + (currentDate.getMinutes() + 1)).slice(-2) + '-' +
+ ('0' + currentDate.getSeconds()).slice(-2);
+ 
+ const dateTimeNow = dateNow +" "+timeNow;
+ 
+ 
+ 
+ if(deviceIDs.some(element => element == id)){
+     
+     const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved) VALUES ('${id}', '${reading}', '${dateTimeNow}');`
+     
+     
+     //console.log(sql)
+     
+     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+         if (err) {
+             console.log(err);
+             throw (err); //If an error occours, throw the error to prevent the program from crashing
+         }
+     });
+     
+     // Process the data here
+     res.json({
+         
+         ack: 0
+     });
+     
+ }else{
+     deviceIDs[deviceIDs.length] = id;
+     const lat = 0, long = 0;
+     
+     console.log("The dark path - DEVICE NOT RECOCNISED");
+     
+     const sql = `INSERT INTO IOTDevices (ID, LastContacted, DateAdded, latitude, longitude) VALUES ('${id}', '${dateTimeNow}', '${dateTimeNow}', '${lat}', '${long}');`
+     
+     
+     console.log(sql)
+     
+     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+         if (err) {
+             console.log(err);
+             throw (err); //If an error occours, throw the error to prevent the program from crashing
+         }
+     });
+     
+     
+ }
+
+
+
+
     res.json({
             
         ack: 0
