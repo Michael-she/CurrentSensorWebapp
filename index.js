@@ -15,6 +15,8 @@ require('dotenv').config(); //package to use the ENV file
 app.use(bodyParser.urlencoded({ extended: true })); // Set up middleware to parse incoming requests as JSON
 app.use(bodyParser.json());
 
+const csvParser = require('csv-parser');
+
 // Middleware to parse JSON body in POST requests
 //app.use(express.json());
 
@@ -144,6 +146,7 @@ app.post('/input', (req, res) => {
 
 app.post('/inputCSV', (req, res) => {
     const csvData = req.body;
+    console.log(csvData);
     const results = [];
 
     csvData.pipe(csvParser())
