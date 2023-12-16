@@ -78,7 +78,7 @@ app.post('/input', (req, res) => {
 
 
     console.log(req.body);
-    const {id, reading} = req.body;
+    /*const {id, reading} = req.body;
     
     updateReadingsCache(id, reading);
 
@@ -138,7 +138,7 @@ app.post('/input', (req, res) => {
         });
         
         
-    }
+    }*/
 });
 
 
