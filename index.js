@@ -79,7 +79,7 @@ app.post('/input', (req, res) => {
     
 
 
-    console.log(req.body);
+   // console.log(req.body);
     
     /*const {id, reading} = req.body;
     
@@ -149,32 +149,32 @@ app.post('/inputCSV', (req, res) => {
     console.log(csvData);
     const results = [];
 
-    csvData.pipe(csvParser())
-        .on('data', (data) => results.push(data))
-        .on('end', () => {
-            results.forEach(row => {
-                const id = row.id;
-                const reading = row.reading;
+    // csvData.pipe(csvParser())
+    //     .on('data', (data) => results.push(data))
+    //     .on('end', () => {
+    //         results.forEach(row => {
+    //             const id = row.id;
+    //             const reading = row.reading;
 
-                updateReadingsCache(id, reading);
-                console.log(reading);
-                const currentDate = new Date();
-                const dateTimeNow = currentDate.toISOString().split('T').join(' ').split('.')[0];
+    //             updateReadingsCache(id, reading);
+    //             console.log(reading);
+    //             const currentDate = new Date();
+    //             const dateTimeNow = currentDate.toISOString().split('T').join(' ').split('.')[0];
 
-                if (deviceIDs.includes(id)) {
-                    // Insert into IOTReadings
-                    // Your SQL query execution code here
-                } else {
-                    deviceIDs.push(id);
-                    const lat = 0, long = 0;
+    //             if (deviceIDs.includes(id)) {
+    //                 // Insert into IOTReadings
+    //                 // Your SQL query execution code here
+    //             } else {
+    //                 deviceIDs.push(id);
+    //                 const lat = 0, long = 0;
 
-                    // Insert into IOTDevices
-                    // Your SQL query execution code here
-                }
-            });
+    //                 // Insert into IOTDevices
+    //                 // Your SQL query execution code here
+    //             }
+    //         });
 
-            res.json({ ack: results.length });
-        });
+    //         res.json({ ack: results.length });
+    //     });
 });
 
 app.post('/saveVirtualDevice', (req, res) => {
@@ -267,7 +267,7 @@ const currentDate = new Date();
 
 
 readingsCache[i].dateRecieved = currentDate;
-console.log("CACHE HIT")
+//console.log("CACHE HIT")
 }
 
 
@@ -278,7 +278,7 @@ console.log("CACHE HIT")
 
 
 if(!chacheHit){
-    console.log("NO CACHE HIT")
+   // console.log("NO CACHE HIT")
     
 
     chacheHit = true;
@@ -302,7 +302,7 @@ function startUp(){
     const sql = `SELECT * FROM IOTDevices;`
     
     
-    console.log(sql)
+   // console.log(sql)
     
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
@@ -320,7 +320,7 @@ function startUp(){
             
         }
         
-        console.log(deviceIDs);
+       // console.log(deviceIDs);
     });
     
     
@@ -329,7 +329,7 @@ function startUp(){
     
     
     
-    console.log(sql2)
+   // console.log(sql2)
     
     connection.query(sql2, function (err, rows, fields) { //Execute the SQL query
         if (err) {
@@ -337,7 +337,7 @@ function startUp(){
             throw (err); //If an error occours, throw the error to prevent the program from crashing
         }
         
-        console.log(rows)
+      //  console.log(rows)
         
         for(let i  = 0 ; i<rows.length; i++){
             
@@ -347,7 +347,7 @@ function startUp(){
             
         }
         
-        console.log(readingsCache);
+      //  console.log(readingsCache);
     });
     
     
