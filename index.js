@@ -157,7 +157,10 @@ app.post('/inputCSV', (req, res) => {
     console.log(csvData);
     
 
-    res.return(0);
+    res.json({
+            
+        ack: 0
+    });
 
   
    
