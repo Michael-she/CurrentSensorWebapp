@@ -145,7 +145,7 @@ app.post('/input', (req, res) => {
 });
 
 app.post('/inputCSV', (req, res) => {
-    const csvData = req.body;
+    const csvData = req;
     console.log("CSV DATA!");
     console.log(csvData);
     const results = [];
