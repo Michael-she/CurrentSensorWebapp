@@ -32,7 +32,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const connection = mysql.createConnection(process.env.DATABASE_URL); // Gets the URL of the database from the PlanetScale envyroment variable, allowing the connection to be made while keeping the secret key a secret
 connection.connect(); // Initializes connection to the PlanetScale API.
 
-const session = require('express-session');
+
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // allows requests from any origin
