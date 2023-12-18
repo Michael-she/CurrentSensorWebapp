@@ -198,7 +198,7 @@
     }
     
     function updateTime(){
-        console.log(deviceIDs);
+        //console.log(deviceIDs);
         for(let i = 0; i<deviceIDs.length; i++){
             
             document.getElementById(`LCDisp${deviceIDs[i]}`).innerHTML = getElapsedTime(deviceCache[i].LastContacted, new Date, deviceIDs[i])
@@ -253,6 +253,8 @@
             
             for(let i = 0; i<readings.length; i++){
                 
+
+                console.log(readings[i]);
                 document.getElementById(`CurrentDisp${readings[i].ID}`).innerHTML = `${readings[i].reading}A`
                 
                 if(readings[i].reading>15){
