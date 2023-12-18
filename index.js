@@ -18,7 +18,6 @@ app.use(bodyParser.json());
 
 
 
-
 const csvParser = require('csv-parser');
 
 // Middleware to parse JSON body in POST requests
@@ -31,12 +30,14 @@ connection.connect(); // Initializes connection to the PlanetScale API.
 
 const session = require('express-session');
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*'); // allows requests from any origin
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
 
+
+app.use(session({
+	secret: 'secret',
+	resave: false,
+	saveUninitialized: false,
+    cookie: { secure: true }
+}));
 
 
 
@@ -51,7 +52,7 @@ startUp();
 
 // GET request handler
 app.get('/landingPage', (req, res) => {
-    
+    console.log(req.session.loggedIn)
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
     res.sendFile(filePath);
@@ -270,7 +271,7 @@ app.post('/authUser', (req, res) => {
             if(rememberMe){
                 console.log("rembebred for a while");
 
-                req.session.cookie.maxAge= 31 * 24 * 60 * 60 * 1000*3;
+              
                 
             
             }else{
@@ -280,10 +281,13 @@ app.post('/authUser', (req, res) => {
 
             }
             res.json({
+
+              
             
                 state: 0
             });
-           
+            req.session.loggedIn = true;
+            console.log(req.session.loggedIn)
 
         }else{
             console.log(rows.length);
