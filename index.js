@@ -301,6 +301,18 @@ app.get('/getIOTDevices', (req, res) => {
 })
 
 
+app.get('/refreshCache', (req, res) => {
+    
+   startUp();
+
+   res.redirect("/landingPage");
+    
+    
+    
+    
+})
+
+
 // Start the server
 app.listen(port, () => {
     //console.log(process.env.DATABASE_URL)
@@ -353,7 +365,7 @@ if(!chacheHit){
 
 }
 
-setInterval(startUp, 60000)
+
 
 function startUp(){
     
