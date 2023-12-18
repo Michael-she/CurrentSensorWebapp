@@ -9,6 +9,7 @@ function handleCredentialResponse(response) {
     console.log('Family Name: ' + data.family_name);
     console.log('Image URL: ' + data.picture);
     console.log('Email: ' + data.email);
+    
 }
 
 function parseJwt(token) {
