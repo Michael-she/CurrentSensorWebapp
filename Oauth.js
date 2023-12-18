@@ -30,7 +30,7 @@ function signOut() {
 
 window.onload = function() {
     google.accounts.id.initialize({
-        client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+        client_id: '930951827083-n1o33l388o9ulb1acs0onsgdc6og2999.apps.googleusercontent.com',
         callback: handleCredentialResponse
     });
 
