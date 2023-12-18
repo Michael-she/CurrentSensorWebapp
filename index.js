@@ -55,7 +55,7 @@ startUp();
 
 
 // GET request handler
-app.get('/landingPage', verifyToken, (req, res) => {
+app.get('/landingPage', (req, res) => {
     
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
@@ -64,7 +64,7 @@ app.get('/landingPage', verifyToken, (req, res) => {
     
 });
 
-app.get('/VirtaulDevicePage', verifyToken, (req, res) => {
+app.get('/VirtaulDevicePage', (req, res) => {
     
     const filePath = path.join(__dirname, 'VirtaulDevicePage.html');
     // console.log(filePath);
