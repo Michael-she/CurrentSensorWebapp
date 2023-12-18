@@ -1,6 +1,13 @@
+var gdata;
+
+function getGData(){
+
+    return getGData;
+}
+
 function handleCredentialResponse(response) {
     // Parse the ID token (JWT) to get user information
-    const gdata = parseJwt(response.credential);
+     gdata = parseJwt(response.credential);
 
     console.log('User signed in:');
    /* console.log('ID: ' + gdata.sub);
@@ -17,7 +24,7 @@ function handleCredentialResponse(response) {
         
     }
 
-    
+    console.log(gdata.name)
     document.getElementById("username").value = gdata.name;
     document.getElementById("email").value = gdata.email;
 
