@@ -74,6 +74,12 @@ app.get('/Oauth.js', (req, res) => {
 });
 
 
+app.get('/signUp', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'signupPage.html');
+    //console.log(filePath);
+    res.sendFile(filePath);
+});
 
 
 

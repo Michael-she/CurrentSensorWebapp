@@ -9,6 +9,20 @@ function handleCredentialResponse(response) {
     console.log('Family Name: ' + data.family_name);
     console.log('Image URL: ' + data.picture);
     console.log('Email: ' + data.email);
+
+
+
+    const loginData = {
+        id: data.sub,
+        fName: data.name,
+        email: data.email
+    }
+
+
+sessionStorage.setI
+      sessionStorage.setItem("OauthData", JSON.stringify(loginData));
+
+
     
 }
 
