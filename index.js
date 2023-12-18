@@ -28,16 +28,11 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const connection = mysql.createConnection(process.env.DATABASE_URL); // Gets the URL of the database from the PlanetScale envyroment variable, allowing the connection to be made while keeping the secret key a secret
 connection.connect(); // Initializes connection to the PlanetScale API.
 
-const session = require('express-session');
 
 
 
-app.use(session({
-	secret: 'secret',
-	resave: false,
-	saveUninitialized: false,
-    cookie: { secure: true }
-}));
+
+
 
 
 
@@ -52,7 +47,7 @@ startUp();
 
 // GET request handler
 app.get('/landingPage', (req, res) => {
-    console.log(req.session.loggedIn)
+   
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
     res.sendFile(filePath);
@@ -286,9 +281,7 @@ app.post('/authUser', (req, res) => {
             
                 state: 0
             });
-            req.session.loggedIn = true;
-            console.log(req.session.loggedIn)
-
+            
         }else{
             console.log(rows.length);
             res.json({
