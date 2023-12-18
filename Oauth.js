@@ -41,6 +41,7 @@ function handleCredentialResponse(response) {
         }
         if(response.state == 1){
             console.log("attempting to set values")
+            console.log(data.name);
             document.getElementById("username").value = data.name;
             document.getElementById("email").value = data.email;
             setID(data.sub);
