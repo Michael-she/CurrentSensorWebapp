@@ -30,14 +30,12 @@ function signOut() {
 
 window.onload = function() {
     google.accounts.id.initialize({
-        client_id: '930951827083-n1o33l388o9ulb1acs0onsgdc6og2999.apps.googleusercontent.com',
+        client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
         callback: handleCredentialResponse
     });
 
     google.accounts.id.renderButton(
-        document.getElementById("g_id_signin"),
-        { theme: "outline", size: "large" }  // customization attributes
+        document.getElementById('g_id_signin'),
+        { theme: 'outline', size: 'large' } // Customize button appearance
     );
-
-    document.getElementById('signout-button').onclick = signOut;
 };
