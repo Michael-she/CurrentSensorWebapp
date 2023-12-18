@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Set up middleware to pars
 app.use(bodyParser.json());
 
 
-const jwt = require('jsonwebtoken');
+
 
 
 const csvParser = require('csv-parser');
@@ -275,8 +275,8 @@ app.post('/authUser', (req, res) => {
             
             }else{
 
-            const token = jwt.sign({ user: username }, JWT_SECRET, { expiresIn: '1h' });
-             res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
+           
+            
 
             }
             res.json({
