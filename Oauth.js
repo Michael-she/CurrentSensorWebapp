@@ -22,6 +22,8 @@ function handleCredentialResponse(response) {
 sessionStorage.setI
       sessionStorage.setItem("OauthData", JSON.stringify(loginData));
 
+    
+      window.location.replace('https://current-sensor-webapp.vercel.app/auth');
 
     
 }

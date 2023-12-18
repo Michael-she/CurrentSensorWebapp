@@ -81,7 +81,7 @@ app.get('/InputValidation.js', (req, res) => {
     res.sendFile(filePath);
 });
 
-app.get('/signUp', (req, res) => {
+app.get('/auth', (req, res) => {
     
     const filePath = path.join(__dirname, 'signupPage.html');
     //console.log(filePath);

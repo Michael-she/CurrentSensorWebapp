@@ -96,8 +96,10 @@
         }
         
     </style>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+    <div id = "signup-page">
     <div class="signup-container">
         <h2>Sign Up</h2>
         <div>
@@ -118,16 +120,57 @@
         </div>
     </div>
     <div class="btnContainer">
-        <div class="loginBtn">
+        <div class="loginBtn" id = "loginBtn">
             Login
             
         </div>
         
-        <div class="signUpBtn">
+        <div class="signUpBtn" id = "signUpBtn">
             
             Sign Up
         </div>
     </div>
+    <div class="btnContainer">
+        <div id="g_id_signin" data-type="standard"></div>
+    </div>
+</div>
+
+<div id = "login-page">
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <div>
+            <input type="text" placeholder="Full Name" id = "username">
+            <input type="email" placeholder="Email" id = "email">
+            <input type="password" placeholder="Password" id = "password">
+            <input type="password" placeholder="Repeat Password" id = "repeatPassword">
+            <input type="text" placeholder="Phone Number" id = "phoneNumber">
+            <div id ="errorMessages"> 
+                <div id="emailError"></div>
+                <div id="Passerror"></div>
+                <div id="errorPhone"></div>
+                <div id="userNameError"></div>
+                
+                
+            </div>
+            <button onclick = "submit()">Sign Up</button>
+        </div>
+    </div>
+    <div class="btnContainer">
+        <div class="loginBtn" id = "loginBtn">
+            Login
+            
+        </div>
+        
+        <div class="signUpBtn" id = "signUpBtn">
+            
+            Sign Up
+        </div>
+    </div>
+    <div class="btnContainer">
+        <div id="g_id_signin" data-type="standard"></div>
+    </div>
+</div>
+
 </body>
 
 
@@ -137,17 +180,22 @@ onLoad()
 var id = null;
 function onLoad(){
 
+    
     const userData = JSON.parse(sessionStorage.getItem("OauthData"));
 
     if(userData != null){
-
+        document.getElementById("signup-page").style.display = "auto";
+        document.getElementById("login-page").style.display = " none";
+        document.getElementById("loginBtn").style.borderTop = " none";
         document.getElementById("username").value = userData.fname;
         document.getElementById("email").value = userData.email;
         id = userData.ID;
 
 
     }else{
-        
+        document.getElementById("signUpBtn").style.borderTop = " none";
+        document.getElementById("signup-page").style.display = " none";
+        document.getElementById("login-page").style.display = " auto";
     }
 }
 
@@ -192,8 +240,11 @@ function submit(){
 }
 
 
+function 
+
 
 </script>
 
 <script src="inputValidation.js"></script>
+<script src="Oauth.js"></script>
 </html>
