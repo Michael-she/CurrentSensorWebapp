@@ -81,6 +81,21 @@ app.get('/InputValidation.js', (req, res) => {
     res.sendFile(filePath);
 });
 
+
+app.get('/login', (req, res) => {
+    console.log("Default endpoint reached");
+    
+    res.redirect("/auth");
+    
+})
+app.get('/signup', (req, res) => {
+    console.log("Default endpoint reached");
+    
+    res.redirect("/auth");
+    
+})
+
+
 app.get('/auth', (req, res) => {
     
     const filePath = path.join(__dirname, 'signupPage.html');
@@ -92,7 +107,7 @@ app.get('/auth', (req, res) => {
 app.get('/', (req, res) => {
     console.log("Default endpoint reached");
     
-    res.redirect("/landingPage");
+    res.redirect("/auth");
     
 })
 

@@ -70,7 +70,7 @@
             border-radius: 4px;
             border-top-left-radius: 0%;
             border-top-right-radius: 0;
-            
+            cursor: pointer;
             box-sizing: border-box;
             display: inline-block; /* Use inline-block for better control */
             vertical-align: top; /* Align the tops of the buttons */
@@ -120,24 +120,22 @@
         </div>
     </div>
     <div class="btnContainer">
-        <div class="loginBtn" id = "loginBtn">
+        <div class="loginBtn" id = "loginBtn" style="border: none;" onclick="toLoginPage()">
             Login
             
         </div>
         
-        <div class="signUpBtn" id = "signUpBtn">
+        <div class="signUpBtn" id = "signUpBtn" >
             
             Sign Up
         </div>
     </div>
-    <div class="btnContainer">
-        <div id="g_id_signin" data-type="standard"></div>
-    </div>
+   
 </div>
 
 <div id = "login-page">
     <div class="signup-container">
-        <h2>Sign Up</h2>
+        <h2>Login</h2>
         <div>
             <input type="text" placeholder="Full Name" id = "username">
         
@@ -160,16 +158,16 @@
             
         </div>
         
-        <div class="signUpBtn" id = "signUpBtn">
+        <div class="signUpBtn" id = "signUpBtn" style="border: none;" onclick="toSignUpPage()">
             
             Sign Up
         </div>
     </div>
-    <div class="btnContainer">
-        <div id="g_id_signin" data-type="standard"></div>
-    </div>
+   
 </div>
-
+<div class="btnContainer">
+    <div id="g_id_signin" data-type="standard"></div>
+</div>
 </body>
 
 
@@ -185,16 +183,17 @@ function onLoad(){
     if(userData != null){
         document.getElementById("signup-page").style.display = "auto";
         document.getElementById("login-page").style.display = " none";
-        document.getElementById("loginBtn").style.borderTop = " none";
+       
         document.getElementById("username").value = userData.fname;
         document.getElementById("email").value = userData.email;
         id = userData.ID;
-
+        console.log("signup")
 
     }else{
-        document.getElementById("signUpBtn").style.borderTop = " none";
+     
         document.getElementById("signup-page").style.display = " none";
         document.getElementById("login-page").style.display = " auto";
+        console.log("login")
     }
 }
 
@@ -239,8 +238,21 @@ function submit(){
 }
 
 
-function 
+function toSignUpPage(){
 
+    document.getElementById("signup-page").style.display = "block";
+        document.getElementById("login-page").style.display = " none";
+
+
+}
+function toLoginPage(){
+
+
+  
+        document.getElementById("signup-page").style.display = " none";
+        document.getElementById("login-page").style.display = " block";
+
+}
 
 </script>
 
