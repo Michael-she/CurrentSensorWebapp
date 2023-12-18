@@ -209,8 +209,8 @@ app.post('/checkOauth', (req, res) => {
         
         if(rows.length == 1){
             
-            req.session.userID = rows[0].ID;
-            console.log(req.session.userID);
+           
+           
            
 
             res.json({
