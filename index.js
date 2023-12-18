@@ -48,18 +48,6 @@ var deviceIDs = [];
 var readingsCache = [];
 
 
-
-app.use(session({
-    secret: 'afgqwgwr2', // Replace with your secret key
-    resave: true,
-    saveUninitialized: false
-  }));
-  
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  
-
 startUp();
 
 
@@ -657,40 +645,3 @@ function startUp(){
     
     
 }
-
-
-
-// Configure the local strategy for use by Passport.
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-      const sql = `SELECT * FROM IOTUsers WHERE username = ?`;
-      connection.query(sql, [username], function(err, users) {
-        if (err) { return done(err); }
-        if (!users.length) { return done(null, false); } // No user found
-  
-        const user = users[0];
-        bcrypt.compare(password, user.password, function(err, res) {
-          if (res) {
-            // passwords match! log user in
-            return done(null, user);
-          } else {
-            // passwords do not match!
-            return done(null, false);
-          }
-        });
-      });
-    }
-  ));
-  
-  passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
-  
-  passport.deserializeUser(function(id, done) {
-    const sql = `SELECT * FROM IOTUsers WHERE id = ?`;
-    connection.query(sql, [id], function(err, users) {
-      if (err) { done(err); }
-      done(null, users[0]);
-    });
-  });
-  
