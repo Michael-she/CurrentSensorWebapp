@@ -17,7 +17,7 @@ function handleCredentialResponse(response) {
     const postData = {
         id: gdata.sub,
         
-    }
+    };
 
     console.log(gdata.name)
     document.getElementById("username").value = gdata.name;
