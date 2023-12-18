@@ -101,17 +101,20 @@
     <div class="signup-container">
         <h2>Sign Up</h2>
         <div>
-            <input type="text" placeholder="Full Name" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Password" required>
-            <input type="password" placeholder="Repeat Password" required>
-            <input type="text" placeholder="Phone Number" required>
+            <input type="text" placeholder="Full Name" id = "username">
+            <input type="email" placeholder="Email" id = "email">
+            <input type="password" placeholder="Password" id = "password">
+            <input type="password" placeholder="Repeat Password" id = "repeatPassword">
+            <input type="text" placeholder="Phone Number" id = "phoneNumber">
             <div id ="errorMessages"> 
-                
+                <div id="emailError"></div>
+                <div id="Passerror"></div>
+                <div id="errorPhone"></div>
+                <div id="userNameError"></div>
                 
                 
             </div>
-            <button type="submit">Sign Up</button>
+            <button onclick = "submit()">Sign Up</button>
         </div>
     </div>
     <div class="btnContainer">
@@ -126,4 +129,69 @@
         </div>
     </div>
 </body>
+
+
+<script>
+
+onLoad()
+
+function onLoad(){
+
+    const userData = JSON.parse(sessionStorage.getItem("OauthData"));
+
+    if(userData != null){
+
+        document.getElementById("username").value = userData.fname;
+        document.getElementById("email").value = userData.email;
+
+
+
+    }else{
+        
+    }
+}
+
+function submit(){
+
+    if(validateAllInputs()==true){
+
+        const postData = {
+            username: document.getElementById("username").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            phone: document.getElementById("phoneNumber").value
+
+
+        }
+
+        fetch('/saveUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: postData
+                
+                
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(JSON.stringify({ id: id, reading: inputValue }))
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                alert("Sorry, an error occoured, if you see this screen, you shouldn't. Congrats?")
+                console.error('Error:', error);
+            });
+      
+    }else{
+        
+    }
+
+}
+
+
+
+</script>
+
+<script src="inputValidation.js"></script>
 </html>

@@ -74,13 +74,19 @@ app.get('/Oauth.js', (req, res) => {
 });
 
 
+app.get('/InputValidation.js', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'InputValidation.js');
+    //console.log(filePath);
+    res.sendFile(filePath);
+});
+
 app.get('/signUp', (req, res) => {
     
     const filePath = path.join(__dirname, 'signupPage.html');
     //console.log(filePath);
     res.sendFile(filePath);
 });
-
 
 
 app.get('/', (req, res) => {
@@ -91,11 +97,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/', (req, res) => {
-  
-    res.redirect("/landingPage");
-    
-})
+
 
 
 app.get('/getReadings', (req, res) => {
@@ -104,6 +106,17 @@ app.get('/getReadings', (req, res) => {
     
 })
 
+
+app.post('/saveUser', (req, res) => {
+
+    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+        if (err) {
+            console.log(err);
+            throw (err); //If an error occours, throw the error to prevent the program from crashing
+        }
+    });
+
+})
 
 
 // POST request handler
