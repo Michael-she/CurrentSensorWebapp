@@ -56,26 +56,22 @@ startUp();
 
 // GET request handler
 app.get('/landingPage', verifyToken, (req, res) => {
-    console.log(req.session.userID)
-    if(req.session.userID){
+    
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
     res.sendFile(filePath);
 
-    }else{
-        res.redirect("/auth");
-    }
+    
 });
 
 app.get('/VirtaulDevicePage', verifyToken, (req, res) => {
-    if(req.session.userID){
+    
     const filePath = path.join(__dirname, 'VirtaulDevicePage.html');
     // console.log(filePath);
     res.sendFile(filePath);
 
-}else{
-    res.redirect("/auth");
-}
+
+  
 });
 
 
@@ -272,13 +268,22 @@ app.post('/authUser', (req, res) => {
         
         if(rows.length == 1){
             req.session.userID = rows[0].ID;
-            console.log(req.session.userID);
+           
+            
+    
+
             if(rememberMe){
                 console.log("rembebred for a while");
 
                 req.session.cookie.maxAge= 31 * 24 * 60 * 60 * 1000*3;
-            }
+                const token = jwt.sign({ user: username }, JWT_SECRET, { expiresIn: '1h' });
+             res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
+            }else{
 
+            const token = jwt.sign({ user: username }, JWT_SECRET, { expiresIn: '1h' });
+             res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
+
+            }
             res.json({
             
                 state: 0
@@ -530,17 +535,12 @@ app.get('/refreshCache', (req, res) => {
 })
 
 
-const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
-    if (!token) return res.status(403).send({ message: 'No token provided' });
+function verifyLogin(){
+   
 
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded.user;
-        next();
-    } catch (error) {
-        res.status(401).send({ message: 'Invalid Token' });
-    }
+
+
+
 };
 
 
