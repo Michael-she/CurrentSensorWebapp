@@ -10,7 +10,7 @@ function handleCredentialResponse(response) {
     console.log('Image URL: ' + gdata.picture);
     console.log('Email: ' + gdata.email);
 
-
+    setID(gdata.sub);
 
     const postData = {
         id: gdata.sub,
@@ -45,7 +45,7 @@ function handleCredentialResponse(response) {
             console.log("attempting to set values")
             console.log(gdata.name);
            
-            setID(data.sub);
+            
         }
     })
     .catch((error) => {
