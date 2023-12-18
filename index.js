@@ -276,8 +276,8 @@ app.post('/authUser', (req, res) => {
                 console.log("rembebred for a while");
 
                 req.session.cookie.maxAge= 31 * 24 * 60 * 60 * 1000*3;
-                const token = jwt.sign({ user: username }, JWT_SECRET, { expiresIn: '1h' });
-             res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
+                
+            
             }else{
 
             const token = jwt.sign({ user: username }, JWT_SECRET, { expiresIn: '1h' });
@@ -535,13 +535,7 @@ app.get('/refreshCache', (req, res) => {
 })
 
 
-function verifyLogin(){
-   
 
-
-
-
-};
 
 
 // Start the server
