@@ -15,7 +15,7 @@ function handleCredentialResponse(response) {
     setID(gdata.sub);
     console.log(gdata.name)
     const postData = {
-        id: gdata.sub,
+        id: gdata.sub
         
     };
 
