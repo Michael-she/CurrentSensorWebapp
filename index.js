@@ -66,6 +66,12 @@ app.get('/OauthTest', (req, res) => {
    // console.log(filePath);
     res.sendFile(filePath);
 });
+app.get('/Oauth.js', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'Oauth.js');
+   // console.log(filePath);
+    res.sendFile(filePath);
+});
 
 
 
