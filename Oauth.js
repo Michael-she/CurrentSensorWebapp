@@ -19,7 +19,7 @@ function handleCredentialResponse(response) {
 
 
 
-
+    console.log("DATA TO BE POSTED:")
     console.log(postData)
     
     fetch('/checkOauth', {
