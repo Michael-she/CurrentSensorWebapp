@@ -10,12 +10,7 @@ function handleCredentialResponse(response) {
      gdata = parseJwt(response.credential);
 
     console.log('User signed in:');
-   /* console.log('ID: ' + gdata.sub);
-    console.log('Full Name: ' + gdata.name);
-    console.log('Given Name: ' + gdata.given_name);
-    console.log('Family Name: ' + gdata.family_name);
-    console.log('Image URL: ' + gdata.picture);
-    console.log('Email: ' + gdata.email);*/
+   
 
     setID(gdata.sub);
     console.log(gdata.name)
