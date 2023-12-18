@@ -188,7 +188,56 @@ app.post('/saveUser', (req, res) => {
 
 })
 
+app.post('/checkOauth', (req, res) => {
+    
+    console.log(req.body)
+    
+    let {id} = req.body;
+    
+  
 
+
+
+    const sql = `SELECT * FROM  IOTUsers WHERE ID = '${id}';`
+    //console.log(sql)
+
+    
+    
+    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+        if (err) {
+            console.log(err);
+            res.json({
+            
+                state: -1
+            });
+        }
+        
+        if(rows.length == 1){
+            
+            req.session.userID = rows[0].ID;
+            console.log(req.session.userID);
+           
+
+            res.json({
+            
+                state: 0
+            });
+           
+
+        }else{
+            console.log(rows.length);
+            res.json({
+            
+                state: 1
+            });
+        }
+        
+    });
+    
+
+
+
+})
 
 app.post('/authUser', (req, res) => {
     

@@ -12,19 +12,52 @@ function handleCredentialResponse(response) {
 
 
 
-    const loginData = {
+    const postData = {
         id: data.sub,
-        fName: data.name,
-        email: data.email
+        
     }
 
 
-sessionStorage.setI
-      sessionStorage.setItem("OauthData", JSON.stringify(loginData));
+
+
+    console.log(postData)
+    
+    fetch('/checkOauth', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData)
+        
+        
+    })
+    .then(response => response.json())
+    .then(data => {
+        
+        if(data.state == 0){
+            
+            window.location.href = "/landingPage"
+            
+        }
+        if(data.state == 1){
+            
+            document.getElementById("username").value = data.name;
+            document.getElementById("email").value = data.email;
+            setID(data.sub);
+        }
+    })
+    .catch((error) => {
+        alert("Sorry, an error occoured, if you see this screen, you shouldn't. Congrats?")
+        console.error('Error:', error);
+    });
+
+
+
+
+
 
     
-      window.location.replace('https://current-sensor-webapp.vercel.app/auth');
-
+      
     
 }
 
