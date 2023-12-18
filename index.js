@@ -57,6 +57,20 @@ app.get('/VirtaulDevicePage', (req, res) => {
     res.sendFile(filePath);
 });
 
+
+
+
+app.get('/OauthTest', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'OauthTest.html');
+   // console.log(filePath);
+    res.sendFile(filePath);
+});
+
+
+
+
+
 app.get('/', (req, res) => {
     console.log("Default endpoint reached");
     
