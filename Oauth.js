@@ -17,7 +17,9 @@ function handleCredentialResponse(response) {
         
     }
 
-
+    
+    document.getElementById("username").value = gdata.name;
+    document.getElementById("email").value = gdata.email;
 
     console.log("DATA TO BE POSTED:")
     console.log(postData)
@@ -42,8 +44,7 @@ function handleCredentialResponse(response) {
         if(response.state == 1){
             console.log("attempting to set values")
             console.log(gdata.name);
-            document.getElementById("username").value = gdata.name;
-            document.getElementById("email").value = gdata.email;
+           
             setID(data.sub);
         }
     })
