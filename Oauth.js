@@ -35,12 +35,12 @@ function handleCredentialResponse(response) {
     .then(data => {
         
         if(data.state == 0){
-            
+            console.log("login");
             window.location.href = "/landingPage"
             
         }
         if(data.state == 1){
-            
+            console.log("attempting to set values")
             document.getElementById("username").value = data.name;
             document.getElementById("email").value = data.email;
             setID(data.sub);
