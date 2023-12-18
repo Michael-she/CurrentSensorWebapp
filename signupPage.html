@@ -134,7 +134,7 @@
 <script>
 
 onLoad()
-
+var id = null;
 function onLoad(){
 
     const userData = JSON.parse(sessionStorage.getItem("OauthData"));
@@ -143,7 +143,7 @@ function onLoad(){
 
         document.getElementById("username").value = userData.fname;
         document.getElementById("email").value = userData.email;
-
+        id = userData.ID;
 
 
     }else{
@@ -156,6 +156,7 @@ function submit(){
     if(validateAllInputs()==true){
 
         const postData = {
+            id: id,
             username: document.getElementById("username").value,
             email: document.getElementById("email").value,
             password: document.getElementById("password").value,
@@ -163,19 +164,20 @@ function submit(){
 
 
         }
+        console.log(postData)
 
         fetch('/saveUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: postData
+                body: JSON.stringify(postData)
                 
                 
             })
             .then(response => response.json())
             .then(data => {
-                console.log(JSON.stringify({ id: id, reading: inputValue }))
+                
                 console.log('Success:', data);
             })
             .catch((error) => {
