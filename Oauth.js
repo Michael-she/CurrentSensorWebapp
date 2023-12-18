@@ -1,19 +1,19 @@
 function handleCredentialResponse(response) {
     // Parse the ID token (JWT) to get user information
-    const data = parseJwt(response.credential);
+    const gdata = parseJwt(response.credential);
 
     console.log('User signed in:');
-    console.log('ID: ' + data.sub);
-    console.log('Full Name: ' + data.name);
-    console.log('Given Name: ' + data.given_name);
-    console.log('Family Name: ' + data.family_name);
-    console.log('Image URL: ' + data.picture);
-    console.log('Email: ' + data.email);
+    console.log('ID: ' + gdata.sub);
+    console.log('Full Name: ' + gdata.name);
+    console.log('Given Name: ' + gdata.given_name);
+    console.log('Family Name: ' + gdata.family_name);
+    console.log('Image URL: ' + gdata.picture);
+    console.log('Email: ' + gdata.email);
 
 
 
     const postData = {
-        id: data.sub,
+        id: gdata.sub,
         
     }
 
@@ -41,9 +41,9 @@ function handleCredentialResponse(response) {
         }
         if(response.state == 1){
             console.log("attempting to set values")
-            console.log(data.name);
-            document.getElementById("username").value = data.name;
-            document.getElementById("email").value = data.email;
+            console.log(gdata.name);
+            document.getElementById("username").value = gdata.name;
+            document.getElementById("email").value = gdata.email;
             setID(data.sub);
         }
     })

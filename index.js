@@ -411,10 +411,7 @@ app.post('/inputCSV', (req, res) => {
         });
         
         // Process the data here
-        res.json({
-            
-            ack: 0
-        });
+      
         
     }else{
         deviceIDs[deviceIDs.length] = id;
