@@ -16,7 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // Set up middleware to pars
 app.use(bodyParser.json());
 
 
-
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 
 const csvParser = require('csv-parser');
