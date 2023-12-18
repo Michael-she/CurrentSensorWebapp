@@ -25,6 +25,7 @@ const csvParser = require('csv-parser');
 const connection = mysql.createConnection(process.env.DATABASE_URL); // Gets the URL of the database from the PlanetScale envyroment variable, allowing the connection to be made while keeping the secret key a secret
 connection.connect(); // Initializes connection to the PlanetScale API.
 
+const session = require('express-session');
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); // allows requests from any origin
@@ -32,6 +33,13 @@ app.use((req, res, next) => {
     next();
 });
 
+
+app.use(session({
+    secret: '967980912346',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {maxAge:60000000, secure: true }
+}));
 
 
 var deviceIDs = [];
@@ -44,17 +52,26 @@ startUp();
 
 // GET request handler
 app.get('/landingPage', (req, res) => {
-    
+    console.log(req.session.userID)
+    if(req.session.userID){
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
     res.sendFile(filePath);
+
+    }else{
+        res.redirect("/auth");
+    }
 });
 
 app.get('/VirtaulDevicePage', (req, res) => {
-    
+    if(req.session.userID){
     const filePath = path.join(__dirname, 'VirtaulDevicePage.html');
     // console.log(filePath);
     res.sendFile(filePath);
+
+}else{
+    res.redirect("/auth");
+}
 });
 
 
@@ -153,12 +170,82 @@ app.post('/saveUser', (req, res) => {
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
             console.log(err);
-            throw (err); //If an error occours, throw the error to prevent the program from crashing
+            res.json({
+            
+                ack: 1
+            });
         }
+
+
+        res.json({
+            
+            state: 0
+        });
     });
     
+
+
+
 })
 
+
+
+app.post('/authUser', (req, res) => {
+    
+    
+    
+
+    console.log(req.body)
+    
+    let {fName, password, rememberMe} = req.body;
+    
+  
+
+
+
+    const sql = `SELECT * FROM  IOTUsers WHERE username = "${fName}" AND password = "${password}";`
+    //console.log(sql)
+
+    
+    
+    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+        if (err) {
+            console.log(err);
+            res.json({
+            
+                state: -1
+            });
+        }
+        
+        if(rows.length == 1){
+            req.session.userID = rows[0].ID;
+            console.log(req.session.userID);
+            if(rememberMe){
+                console.log("rembebred for a while");
+
+                req.session.cookie.maxAge= 31 * 24 * 60 * 60 * 1000*3;
+            }
+
+            res.json({
+            
+                state: 0
+            });
+           
+
+        }else{
+            console.log(rows.length);
+            res.json({
+            
+                state: 1
+            });
+        }
+        
+    });
+    
+
+
+
+})
 
 // POST request handler
 app.post('/input', (req, res) => {

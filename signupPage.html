@@ -33,6 +33,16 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+        input[type="checkbox"]{
+            
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        
         
         button {
             background-color: #007bff;
@@ -60,6 +70,12 @@
             text-align: center; /* Center the text inside lower div */
         }
         
+        .rememberMe{
+            
+            color: #656565;
+            
+            
+        }
         .loginBtn, .signUpBtn {
             background-color: #ffffff;
             color: black;
@@ -96,123 +112,122 @@
         }
         
     </style>
-      <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <div id = "signup-page">
-    <div class="signup-container">
-        <h2>Sign Up</h2>
-        <div>
-            <input type="text" placeholder="Full Name" id = "username">
-            <input type="email" placeholder="Email" id = "email">
-            <input type="password" placeholder="Password" id = "password">
-            <input type="password" placeholder="Repeat Password" id = "repeatPassword">
-            <input type="text" placeholder="Phone Number" id = "phoneNumber">
-            <div id ="errorMessages"> 
-                <div id="emailError"></div>
-                <div id="Passerror"></div>
-                <div id="errorPhone"></div>
-                <div id="userNameError"></div>
-                
+        <div class="signup-container">
+            <h2>Sign Up</h2>
+            <div>
+                <input type="text" placeholder="Full Name" id = "username">
+                <input type="email" placeholder="Email" id = "email">
+                <input type="password" placeholder="Password" id = "password">
+                <input type="password" placeholder="Repeat Password" id = "repeatPassword">
+                <input type="text" placeholder="Phone Number" id = "phoneNumber">
+                <div id ="errorMessages"> 
+                    <div id="emailError"></div>
+                    <div id="Passerror"></div>
+                    <div id="errorPhone"></div>
+                    <div id="userNameError"></div>
+                    
+                    
+                </div>
+                <button onclick = "submit()">Sign Up</button>
+            </div>
+        </div>
+        <div class="btnContainer">
+            <div class="loginBtn" id = "loginBtn" style="border: none;" onclick="toLoginPage()">
+                Login
                 
             </div>
-            <button onclick = "submit()">Sign Up</button>
-        </div>
-    </div>
-    <div class="btnContainer">
-        <div class="loginBtn" id = "loginBtn" style="border: none;" onclick="toLoginPage()">
-            Login
             
-        </div>
-        
-        <div class="signUpBtn" id = "signUpBtn" >
-            
-            Sign Up
-        </div>
-    </div>
-   
-</div>
-
-<div id = "login-page">
-    <div class="signup-container">
-        <h2>Login</h2>
-        <div>
-            <input type="text" placeholder="Full Name" id = "username">
-        
-            <input type="password" placeholder="Password" id = "password">
-            
-            <div id ="errorMessages"> 
-                <div id="emailError"></div>
-                <div id="Passerror"></div>
-                <div id="errorPhone"></div>
-                <div id="userNameError"></div>
+            <div class="signUpBtn" id = "signUpBtn" >
                 
+                Sign Up
+            </div>
+        </div>
+        
+    </div>
+    
+    <div id = "login-page">
+        <div class="signup-container">
+            <h2>Login</h2>
+            <div>
+                <input type="text" placeholder="Full Name" id = "loginUsername">
+                
+                <input type="password" placeholder="Password" id = "loginPassword">
+                <input type="checkbox" id = "rememberMe">  <t class="rememberMe">Remember me</t>
+                
+                <div id ="errorMessages"> 
+                    
+                    <div id="loginPasserror"></div>
+                    
+                    
+                    
+                </div>
+                <button onclick = "login()">Login</button>
+            </div>
+        </div>
+        <div class="btnContainer">
+            <div class="loginBtn" id = "loginBtn">
+                Login
                 
             </div>
-            <button onclick = "">Login</button>
-        </div>
-    </div>
-    <div class="btnContainer">
-        <div class="loginBtn" id = "loginBtn">
-            Login
             
+            <div class="signUpBtn" id = "signUpBtn" style="border: none;" onclick="toSignUpPage()">
+                
+                Sign Up
+            </div>
         </div>
         
-        <div class="signUpBtn" id = "signUpBtn" style="border: none;" onclick="toSignUpPage()">
-            
-            Sign Up
-        </div>
     </div>
-   
-</div>
-<div class="btnContainer">
-    <div id="g_id_signin" data-type="standard"></div>
-</div>
+    <div class="btnContainer">
+        <div id="g_id_signin" data-type="standard"></div>
+    </div>
 </body>
 
 
 <script>
-
-onLoad()
-var id = null;
-function onLoad(){
-
     
-    const userData = JSON.parse(sessionStorage.getItem("OauthData"));
-
-    if(userData != null){
-        document.getElementById("signup-page").style.display = "auto";
-        document.getElementById("login-page").style.display = " none";
-       
-        document.getElementById("username").value = userData.fname;
-        document.getElementById("email").value = userData.email;
-        id = userData.ID;
-        console.log("signup")
-
-    }else{
-     
-        document.getElementById("signup-page").style.display = " none";
-        document.getElementById("login-page").style.display = " auto";
-        console.log("login")
-    }
-}
-
-function submit(){
-
-    if(validateAllInputs()==true){
-
-        const postData = {
-            id: id,
-            username: document.getElementById("username").value,
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-            phone: document.getElementById("phoneNumber").value
-
-
+    onLoad()
+    var id = null;
+    function onLoad(){
+        
+        
+        const userData = JSON.parse(sessionStorage.getItem("OauthData"));
+        
+        if(userData != null){
+            document.getElementById("signup-page").style.display = "auto";
+            document.getElementById("login-page").style.display = " none";
+            
+            document.getElementById("username").value = userData.fname;
+            document.getElementById("email").value = userData.email;
+            id = userData.ID;
+            console.log("signup")
+            
+        }else{
+            
+            document.getElementById("signup-page").style.display = " none";
+            document.getElementById("login-page").style.display = " auto";
+            console.log("login")
         }
-        console.log(postData)
-
-        fetch('/saveUser', {
+    }
+    
+    function submit(){
+        
+        if(validateAllInputs()==true){
+            
+            const postData = {
+                id: id,
+                username: document.getElementById("username").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                phone: document.getElementById("phoneNumber").value
+                
+            }
+            console.log(postData)
+            
+            fetch('/saveUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -224,37 +239,93 @@ function submit(){
             .then(response => response.json())
             .then(data => {
                 
-                console.log('Success:', data);
+                if(data.state == 0){
+                    
+                    window.location.href="/landingPage";
+                    
+                }
             })
             .catch((error) => {
                 alert("Sorry, an error occoured, if you see this screen, you shouldn't. Congrats?")
                 console.error('Error:', error);
             });
-      
-    }else{
+            
+        }else{
+            
+        }
         
     }
-
-}
-
-
-function toSignUpPage(){
-
-    document.getElementById("signup-page").style.display = "block";
+    
+    
+    function toSignUpPage(){
+        
+        document.getElementById("signup-page").style.display = "block";
         document.getElementById("login-page").style.display = " none";
-
-
-}
-function toLoginPage(){
-
-
-  
+        
+        
+    }
+    function toLoginPage(){
+        
+        
+        
         document.getElementById("signup-page").style.display = " none";
         document.getElementById("login-page").style.display = " block";
+        
+    }
+    
+</script>
+<script>
 
-}
+    function login(){
+
+
+        let rememberMe;
+
+        if(document.getElementById("rememberMe").checked){
+
+            rememberMe=true;
+        }else{
+            rememberMe=false;
+        }
+        const postData = {
+            fName: document.getElementById("loginUsername").value,
+            password: document.getElementById("loginPassword").value,
+            rememberMe: rememberMe
+        }
+
+        
+        fetch('/authUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData)
+                
+                
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                if(data.state == 0){
+                    
+                    window.location.href="/landingPage";
+                    
+                }else{
+
+                    document.getElementById("loginPasserror").innerHTML = `<t>The username or password is incorrect</t>`
+
+                }
+            })
+            .catch((error) => {
+                alert("Sorry, an error occoured, if you see this screen, you shouldn't. Congrats?")
+                console.error('Error:', error);
+            });
+
+
+    }
 
 </script>
+
 
 <script src="inputValidation.js"></script>
 <script src="Oauth.js"></script>
