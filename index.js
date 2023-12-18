@@ -15,6 +15,20 @@ app.use(express.text());
 app.use(bodyParser.urlencoded({ extended: true })); // Set up middleware to parse incoming requests as JSON
 app.use(bodyParser.json());
 
+//Import the main Passport and Express-Session library
+const passport = require('passport')
+const session = require('express-session')//Import the secondary "Strategy" library
+const LocalStrategy = require('passport-local').Strategy
+
+
+app.use(session({
+    secret: "secret",
+    resave: false ,
+    saveUninitialized: true ,
+  }))
+  // This is the basic express session({..}) initialization.app.use(passport.initialize()) 
+  // init passport on every route call.app.use(passport.session())    
+  // allow passport to use "express-session".
 
 
 
@@ -36,17 +50,49 @@ connection.connect(); // Initializes connection to the PlanetScale API.
 
 
 
-
 var deviceIDs = [];
 var readingsCache = [];
 
 
 startUp();
 
+//Passport begin
+
+
+passport.use(new LocalStrategy (authUser))
+
+
+
+authUser = (user, password, done) => {
+    //Search the user, password in the DB to authenticate the user
+    //Let's assume that a search within your DB returned the username and password match for "Kyle".  
+     let authenticated_user = { id: 123, name: "Kyle"}   
+     return done (null, authenticated_user )
+}
+
+checkAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) { return next() }
+    res.redirect("/login")
+  }
+
+
+
+passport.serializeUser( (userObj, done) => {    done(null, userObj)})
+
+
+passport.deserializeUser((userObj, done) => {      done (null, userObj )})
+
+
+
+checkAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) { return next() }
+    res.redirect("/login")
+  }
+
 
 
 // GET request handler
-app.get('/landingPage', (req, res) => {
+app.get('/landingPage',checkAuthenticated, (req, res) => {
    
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
@@ -230,6 +276,9 @@ app.post('/checkOauth', (req, res) => {
 
 })
 
+
+
+/*
 app.post('/authUser', (req, res) => {
     
     
@@ -296,6 +345,13 @@ app.post('/authUser', (req, res) => {
 
 
 })
+*/
+app.post ("/authUser", passport.authenticate('local', {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+ }))
+
+
 
 // POST request handler
 app.post('/input', (req, res) => {
