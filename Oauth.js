@@ -1,47 +1,43 @@
-function initGoogleAuth() {
-    gapi.load('auth2', function() {
-        gapi.auth2.init({
-            client_id: '930951827083-n1o33l388o9ulb1acs0onsgdc6og2999.apps.googleusercontent.com'
-        }).then(function(auth2) {
-            console.log('Google Auth initialized');
-            updateSigninStatus(auth2.isSignedIn.get());
-            auth2.isSignedIn.listen(updateSigninStatus);
-        });
-    });
+function handleCredentialResponse(response) {
+    // Parse the ID token (JWT) to get user information
+    const data = parseJwt(response.credential);
+
+    console.log('User signed in:');
+    console.log('ID: ' + data.sub);
+    console.log('Full Name: ' + data.name);
+    console.log('Given Name: ' + data.given_name);
+    console.log('Family Name: ' + data.family_name);
+    console.log('Image URL: ' + data.picture);
+    console.log('Email: ' + data.email);
 }
 
-function signIn() {
-    const auth2 = gapi.auth2.getAuthInstance();
-    auth2.signIn().then(function(googleUser) {
-        const profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId());
-        console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-    });
-}
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
 
 function signOut() {
-    const auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function() {
-        console.log('User signed out.');
-        updateSigninStatus(false);
+    // To sign out, you need to remove the Google session
+    // This can be done by redirecting the user to a URL or by JavaScript
+    console.log('User signed out.');
+    // Implement sign-out functionality as needed
+}
+
+window.onload = function() {
+    google.accounts.id.initialize({
+        client_id: '930951827083-n1o33l388o9ulb1acs0onsgdc6og2999.apps.googleusercontent.com',
+        callback: handleCredentialResponse
     });
-}
 
-function updateSigninStatus(isSignedIn) {
-    if (isSignedIn) {
-        document.getElementById('signin-button').style.display = 'none';
-        document.getElementById('signout-button').style.display = 'block';
-    } else {
-        document.getElementById('signin-button').style.display = 'block';
-        document.getElementById('signout-button').style.display = 'none';
-    }
-}
+    google.accounts.id.renderButton(
+        document.getElementById("g_id_signin"),
+        { theme: "outline", size: "large" }  // customization attributes
+    );
 
-document.getElementById('signin-button').onclick = signIn;
-document.getElementById('signout-button').onclick = signOut;
-
-initGoogleAuth();
+    document.getElementById('signout-button').onclick = signOut;
+};
