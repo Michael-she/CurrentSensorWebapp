@@ -190,6 +190,7 @@
             
             
         } else {
+            set
             elapsedTime = `${minutes} minute${minutes > 1 ? 's' : ''}, ${seconds} second${seconds > 1 ? 's' : ''}`;
         }
         
@@ -260,6 +261,9 @@
                 }if(readings[i].reading>20){
                     setBlockRed(readings[i].ID)
                     
+                }else{
+                    setBlockGreen(readings[i].ID)
+
                 }
                 
                 for(let j = 0; j<deviceCache.length; j++){
@@ -307,6 +311,14 @@
         var element = document.getElementById(`numberBlock${divId}`);
         if (element) {
             element.style.backgroundColor = "red";
+        } else {
+            console.log("Element with ID '" + divId + "' not found.");
+        }
+    }
+    function setBlockGreen(divId) {
+        var element = document.getElementById(`numberBlock${divId}`);
+        if (element) {
+            element.style.backgroundColor = "#4CAF50";
         } else {
             console.log("Element with ID '" + divId + "' not found.");
         }
