@@ -15,12 +15,16 @@ app.use(express.text());
 app.use(bodyParser.urlencoded({ extended: true })); // Set up middleware to parse incoming requests as JSON
 app.use(bodyParser.json());
 
+
+const jwt = require('jsonwebtoken');
+
+
 const csvParser = require('csv-parser');
 
 // Middleware to parse JSON body in POST requests
 //app.use(express.json());
 
-
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const connection = mysql.createConnection(process.env.DATABASE_URL); // Gets the URL of the database from the PlanetScale envyroment variable, allowing the connection to be made while keeping the secret key a secret
 connection.connect(); // Initializes connection to the PlanetScale API.
@@ -51,7 +55,7 @@ startUp();
 
 
 // GET request handler
-app.get('/landingPage', (req, res) => {
+app.get('/landingPage', verifyToken, (req, res) => {
     console.log(req.session.userID)
     if(req.session.userID){
     const filePath = path.join(__dirname, 'landingPage.html');
@@ -63,7 +67,7 @@ app.get('/landingPage', (req, res) => {
     }
 });
 
-app.get('/VirtaulDevicePage', (req, res) => {
+app.get('/VirtaulDevicePage', verifyToken, (req, res) => {
     if(req.session.userID){
     const filePath = path.join(__dirname, 'VirtaulDevicePage.html');
     // console.log(filePath);
@@ -524,6 +528,20 @@ app.get('/refreshCache', (req, res) => {
     
     
 })
+
+
+const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+    if (!token) return res.status(403).send({ message: 'No token provided' });
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded.user;
+        next();
+    } catch (error) {
+        res.status(401).send({ message: 'Invalid Token' });
+    }
+};
 
 
 // Start the server
