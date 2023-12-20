@@ -89,6 +89,15 @@ app.get('/landingPage', (req, res) => {
     
 });
 
+app.post('/landingPage', (req, res) => {
+   
+    const filePath = path.join(__dirname, 'landingPage.html');
+    //console.log(filePath);
+    res.sendFile(filePath);
+
+    
+});
+
 app.get('/VirtaulDevicePage', (req, res) => {
     
     const filePath = path.join(__dirname, 'VirtaulDevicePage.html');
