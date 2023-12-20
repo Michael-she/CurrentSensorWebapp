@@ -39,14 +39,7 @@ const config = {
   secret: 'hgfytry7865865fgyu5rex654765x53y7uxehjt53x',
   baseURL: 'https://current-sensor-webapp.vercel.app',
   clientID: 'qJ8ZmMPsWiTnx3o29mhFmljgzTsaDxP9',
-  routes: {
-    // Override the default login route to use your own login route as shown below
-    
-    // Pass a custom path to redirect users to a different
-    // path after logout.
-    postLogoutRedirect: '/custom-logout',
-    // Override the default callback route to use your own callback route as shown below
-  },
+ 
   issuerBaseURL: 'https://dev-feweogch7uuhq23l.us.auth0.com'
 };
 
