@@ -41,7 +41,7 @@ const config = {
   clientID: 'qJ8ZmMPsWiTnx3o29mhFmljgzTsaDxP9',
   routes: {
     // Override the default login route to use your own login route as shown below
-    login: false,
+    
     // Pass a custom path to redirect users to a different
     // path after logout.
     postLogoutRedirect: '/custom-logout',
