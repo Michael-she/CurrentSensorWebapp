@@ -82,7 +82,7 @@ startUp();
 // GET request handler
 app.get('/landingPage', (req, res) => {
    
-    const filePath = path.join(__dirname, 'HomePage.js');
+    const filePath = path.join(__dirname, 'HomePage.HTML');
     //console.log(filePath);
     res.sendFile(filePath);
 
