@@ -80,14 +80,7 @@ startUp();
 
 
 // GET request handler
-app.get('/landingPage', (req, res) => {
-   
-    const filePath = path.join(__dirname, 'HomePage.html');
-    //console.log(filePath);
-    res.sendFile(filePath);
 
-    
-});
 
 app.get('/dashboard', (req, res) => {
    
@@ -153,7 +146,7 @@ app.get('/InputValidation.js', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.oidc.login({
-        returnTo: '/landingPage',
+        returnTo: '/dashboard',
         authorizationParams: {
           redirect_uri: 'https://current-sensor-webapp.vercel.app/callback',
         },
@@ -583,7 +576,7 @@ app.get('/refreshCache', (req, res) => {
     
     startUp();
     
-    res.redirect("/landingPage");
+    res.redirect("/dashboard");
     
     
     
