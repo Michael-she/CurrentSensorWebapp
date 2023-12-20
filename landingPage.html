@@ -53,7 +53,7 @@
 <body>
     <a href="/VirtaulDevicePage" class="button">Go to Virtual Devices</a>
     
-
+    
     <div id="deviceDiv">
         
     </div>
@@ -114,7 +114,7 @@
             console.log(getElapsedTime( devices[i].LastContacted, currentDate ))
             
             document.getElementById("deviceDiv").innerHTML += `
-            <div class="number-block" id = "numberBlock${devices[i].ID}">
+            <div class="number-block" id = "numberBlock${devices[i].ID}" onclick = toDetailedView(${devices[i].ID})>
                 
                 <div class = "dataContainer">
                     <div >
@@ -153,7 +153,12 @@
     
     
     
-    
+    function toDetailedView(id){
+
+
+        console.log(id)
+
+    }
     
     
     
@@ -208,32 +213,11 @@
     }
     
     
-    function sendStringToServer() {
-            
-            
-           
-            fetch('/inputCSV', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain',
-                },
-                body: "HEllo",
-                
-                
-            })
-            .then(response => response.json())
-            .then(data => {
-                
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
-
-// Usage
-
-
+    
+    
+    // Usage
+    
+    
     
     function updateReadings(){
         
@@ -253,9 +237,9 @@
             
             for(let i = 0; i<readings.length; i++){
                 
-
                 
-
+                
+                
                 console.log(readings[i]);
                 document.getElementById(`CurrentDisp${readings[i].ID}`).innerHTML = `${readings[i].reading}A`
                 
@@ -268,7 +252,7 @@
                     
                 }else{
                     setBlockGreen(readings[i].ID)
-
+                    
                 }
                 
                 for(let j = 0; j<deviceCache.length; j++){

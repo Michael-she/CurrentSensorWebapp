@@ -107,7 +107,7 @@ app.get('/chartTest', (req, res) => {
     
 });
 
-app.post('/landingPage', (req, res) => {
+app.post('/dashboard', (req, res) => {
    
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
