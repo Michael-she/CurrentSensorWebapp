@@ -114,7 +114,7 @@
             console.log(getElapsedTime( devices[i].LastContacted, currentDate ))
             
             document.getElementById("deviceDiv").innerHTML += `
-            <div class="number-block" id = "numberBlock${devices[i].ID}" onclick = toDetailedView(${devices[i].ID})>
+            <div class="number-block" id = "numberBlock${devices[i].ID}" onclick = toDetailedView('${devices[i].ID}')>
                 
                 <div class = "dataContainer">
                     <div >
@@ -156,8 +156,8 @@
     function toDetailedView(id){
 
 
-        console.log(id)
-
+        sessionStorage.setItem("details", id);
+        window.location.href = "/chartTest"
     }
     
     
