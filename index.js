@@ -322,6 +322,27 @@ app.get('/allCachedDevices', (req, res) => {
 });
 
 
+app.post('/authUser', (req, res) => {
+
+const {id} = req.body;
+
+
+    sql = "SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings";
+
+    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+        if (err) {
+            console.log(err);
+            res.json({
+            
+                state: -1
+            });
+        }
+        res.send(rows)
+
+    })
+
+
+})
 
 app.post('/authUser', (req, res) => {
     
