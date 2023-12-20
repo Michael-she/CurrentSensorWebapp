@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimalistic D3.js Line Graph</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        .line {
+            fill: none;
+            stroke: #00798C; /* Muted color for the line */
+            stroke-width: 1.5; /* Thinner line */
+        }
+
+        .line1 { stroke: #E63946; }
+        .line2 { stroke: #00796C; }
+        .line3 { stroke: #33768D; }
+        
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #bbb; /* Muted color for the axes */
+            shape-rendering: crispEdges;
+        }
+
+        .axis text {
+            font-family: Arial, sans-serif;
+            font-size: 10px; /* Smaller font size */
+            color: #333;
+        }
+
+        .outlier {
+            fill: red;
+            font-size: 12px;
+        }
+        .spike {
+            fill: red;
+            font-size: 12px;
+            text-anchor: middle;
+        }
+        .spike-line {
+            stroke: red;
+            stroke-width: 1;
+        }
+    </style>
+</head>
+<body>
+    <svg width="600" height="400"></svg>
+
+    <script>
+        // Sample data with x and y values
+
+        const rawData = getData()
+
+        const dataMAX = [
+            {x: 0, y: 10},
+            {x: 1, y: 15},
+            {x: 2, y: 8},
+            {x: 3, y: 20},
+            {x: 4, y: 25},
+            {x: 5, y: 18}
+        ];
+
+        // Additional datasets
+        const data2 = [
+            {x: 0, y: 5},
+            {x: 1, y: 9},
+            {x: 2, y: 7},
+            {x: 3, y: 14},
+            {x: 4, y: 17},
+            {x: 5, y: 12}
+        ];
+
+        const data3 = [
+            {x: 0, y: 12},
+            {x: 1, y: 19},
+            {x: 2, y: 15},
+            {x: 3, y: 22},
+            {x: 4, y: 26},
+            {x: 5, y: 20}
+        ];
+
+
+         // Calculate the average
+         const average = d3.mean(dataMAX, d => d.y);
+
+// Function to identify spikes
+function isSpike(point, index, array) {
+    if (index === 0 || index === array.length - 1) return false; // Ignore first and last points
+    let prev = array[index - 1];
+    let next = array[index + 1];
+    return point.y > prev.y && point.y > next.y && point.y > average; // Higher than neighbors and average
+}
+
+// Filter for spikes
+    
+
+        // Calculate Q1, Q3, and IQR
+        const sortedY = dataMAX.map(d => d.y).sort(d3.ascending);
+        const q1 = d3.quantile(sortedY, 0.25);
+        const q3 = d3.quantile(sortedY, 0.75);
+        const iqr = q3 - q1;
+        const upperOutlierThreshold = q3 + 1.5 * iqr;
+
+        // Filter for upper outliers
+        const upperOutliers = dataMAX.filter(d => d.y > upperOutlierThreshold);
+
+        const spikes = dataMAX.filter(isSpike).filter(d => d.y > upperOutlierThreshold);
+        // Set up dimensions
+        const margin = {top: 20, right: 30, bottom: 30, left: 40};
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+
+        // Create scales
+        const x = d3.scaleLinear()
+                    .domain(d3.extent(dataMAX, d => d.x))
+                    .range([0, width]);
+        const y = d3.scaleLinear()
+                    .domain([0, d3.max(dataMAX, d => d.y)])
+                    .range([height, 0]);
+
+        // Line generator with curve
+        const lineGenerator = d3.line()
+                                .curve(d3.curveMonotoneX)
+                                .x(d => x(d.x))
+                                .y(d => y(d.y));
+
+        // Append SVG to the body
+        const svg = d3.select("svg")
+                      .attr("width", width + margin.left + margin.right)
+                      .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+               
+
+        // Add the line
+        svg.append("path")
+            .datum(dataMAX)
+            .attr("class", "line line1")
+            .attr("d", lineGenerator);
+
+        svg.append("path")
+            .datum(data2)
+            .attr("class", "line line2")
+            .attr("d", lineGenerator);
+
+        svg.append("path")
+            .datum(data3)
+            .attr("class", "line line3")
+            .attr("d", lineGenerator);
+
+        // Add the X Axis
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).ticks(4));
+
+        // Add the Y Axis
+       
+
+ svg.append("g")
+ .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(4)); // Limit to 4 ticks
+
+
+        spikes.forEach(spike => {
+            svg.append("text")
+                .attr("class", "spike")
+                .attr("x", x(spike.x))
+                .attr("y", y(spike.y))
+                .attr("dy", "-0.5em") // Adjust position above the point
+                .text(`${spike.y}A`);
+        });
+
+
+        spikes.forEach(spike => {
+            svg.append("line")
+                .attr("class", "spike-line")
+                .attr("x1", x(spike.x) - 20) // 20 pixels to the left of the spike
+                .attr("y1", y(spike.y))
+                .attr("x2", x(spike.x) + 20) // 20 pixels to the right of the spike
+                .attr("y2", y(spike.y));
+        });
+
+
+
+
+        
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

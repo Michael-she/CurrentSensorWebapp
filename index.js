@@ -82,7 +82,16 @@ startUp();
 // GET request handler
 app.get('/landingPage', (req, res) => {
    
-    const filePath = path.join(__dirname, 'landingPage.html');
+    const filePath = path.join(__dirname, 'HomePage.js');
+    //console.log(filePath);
+    res.sendFile(filePath);
+
+    
+});
+
+app.get('/chartTest', (req, res) => {
+   
+    const filePath = path.join(__dirname, 'ChartTest.html');
     //console.log(filePath);
     res.sendFile(filePath);
 
