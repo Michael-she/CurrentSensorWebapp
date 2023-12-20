@@ -454,7 +454,7 @@ app.post('/inputCSV', (req, res) => {
         connection.query(sql, function (err, rows, fields) { //Execute the SQL query
             if (err) {
                 console.log(err);
-                throw (err); //If an error occours, throw the error to prevent the program from crashing
+                
             }
         });
         
@@ -475,10 +475,21 @@ app.post('/inputCSV', (req, res) => {
         connection.query(sql, function (err, rows, fields) { //Execute the SQL query
             if (err) {
                 console.log(err);
-                throw (err); //If an error occours, throw the error to prevent the program from crashing
+                
             }
         });
         
+        const sql2 = `INSERT INTO IOTReadings (ID, reading, dateRecieved, readingMax, readingMin) VALUES ('${id}', '${reading}', '${dateTimeNow}', '${readingMax}', '${readingMin});`
+        
+        
+        //console.log(sql)
+        
+        connection.query(sql2, function (err, rows, fields) { //Execute the SQL query
+            if (err) {
+                console.log(err);
+                
+            }
+        });
         
     }
     
