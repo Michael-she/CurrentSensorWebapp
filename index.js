@@ -34,20 +34,20 @@ connection.connect(); // Initializes connection to the PlanetScale API.
 const { auth } = require('express-openid-connect');
 
 const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: 'gebzznhHigFSBkwUKZu5YRQYAOx5iDajNFn_XbEKLC7zE3j95tgeikkyXxKV3oBh',
-  baseURL: 'https://current-sensor-webapp.vercel.app',
-  clientID: 'qJ8ZmMPsWiTnx3o29mhFmljgzTsaDxP9',
-  routes: {
-    // Override the default login route to use your own login route as shown below
-    login: false,
-    // Pass a custom path to redirect users to a different
-    // path after logout.
-    
-    // Override the default callback route to use your own callback route as shown below
-  },
-  issuerBaseURL: 'https://dev-feweogch7uuhq23l.us.auth0.com'
+    authRequired: false,
+    auth0Logout: true,
+    secret: 'gebzznhHigFSBkwUKZu5YRQYAOx5iDajNFn_XbEKLC7zE3j95tgeikkyXxKV3oBh',
+    baseURL: 'https://current-sensor-webapp.vercel.app',
+    clientID: 'qJ8ZmMPsWiTnx3o29mhFmljgzTsaDxP9',
+    routes: {
+        // Override the default login route to use your own login route as shown below
+        login: false,
+        // Pass a custom path to redirect users to a different
+        // path after logout.
+        
+        // Override the default callback route to use your own callback route as shown below
+    },
+    issuerBaseURL: 'https://dev-feweogch7uuhq23l.us.auth0.com'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -57,7 +57,7 @@ app.use(auth(config));
 
 // req.isAuthenticated is provided from the auth router
 app.get('/amLoggedIn', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
 
@@ -67,7 +67,7 @@ const { requiresAuth } = require('express-openid-connect');
 
 
 app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
+    res.send(JSON.stringify(req.oidc.user));
 });
 
 
@@ -83,29 +83,29 @@ startUp();
 
 
 app.get('/dashboard', (req, res) => {
-   
+    
     const filePath = path.join(__dirname, 'landingPage.html');
     console.log(filePath);
     res.sendFile(filePath);
-
+    
     
 });
 
 app.get('/chartTest', (req, res) => {
-   
+    
     const filePath = path.join(__dirname, 'ChartTest.html');
     //console.log(filePath);
     res.sendFile(filePath);
-
+    
     
 });
 
 app.post('/dashboard', (req, res) => {
-   
+    
     const filePath = path.join(__dirname, 'landingPage.html');
     //console.log(filePath);
     res.sendFile(filePath);
-
+    
     
 });
 
@@ -114,9 +114,9 @@ app.get('/VirtaulDevicePage', (req, res) => {
     const filePath = path.join(__dirname, 'VirtaulDevicePage.html');
     // console.log(filePath);
     res.sendFile(filePath);
-
-
-  
+    
+    
+    
 });
 
 
@@ -148,9 +148,9 @@ app.get('/login', (req, res) => {
     res.oidc.login({
         returnTo: '/dashboard',
         authorizationParams: {
-          redirect_uri: 'https://current-sensor-webapp.vercel.app/callback',
+            redirect_uri: 'https://current-sensor-webapp.vercel.app/callback',
         },
-      })
+    })
     
 })
 app.get('/signup', (req, res) => {
@@ -183,7 +183,7 @@ app.get('/', (req, res) => {
 app.get('/getReadings', (req, res) => {
     
     res.send(readingsCache);
-     
+    
 })
 
 
@@ -200,40 +200,40 @@ app.post('/saveUser', (req, res) => {
     ('0' + currentDate.getSeconds()).slice(-2);
     
     const dateTimeNow = dateNow +" "+timeNow;
-
+    
     console.log(req.body)
     
     let {id, username, password, email, phone} = req.body;
     
     if(id== null){
-
+        
         id = Math.floor(Math.random() * 999999999999999) + 1;
-
+        
     }
-
-
-
+    
+    
+    
     const sql = `INSERT INTO IOTUsers (id, userName, password, email, phone, dateCreated, admin) VALUES ("${id}", "${username}", "${password}", "${email}", '${phone}', '${dateTimeNow}', false);`
     
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
             console.log(err);
             res.json({
-            
+                
                 ack: 1
             });
         }
-
-
+        
+        
         res.json({
             
             state: 0
         });
     });
     
-
-
-
+    
+    
+    
 })
 
 app.post('/checkOauth', (req, res) => {
@@ -242,244 +242,174 @@ app.post('/checkOauth', (req, res) => {
     
     const {id} = req.body;
     
-  
-
-
-
+    
+    
+    
+    
     const sql = `SELECT * FROM  IOTUsers WHERE ID = '${id}';`
     //console.log(sql)
-
+    
     
     
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
             console.log(err);
             res.json({
-            
+                
                 state: -1
             });
         }
         
         if(rows.length == 1){
             
-           
-           
-           
-
-            res.json({
             
+            
+            
+            
+            res.json({
+                
                 state: 0
             });
-           
-
+            
+            
         }else{
             console.log(rows.length);
             res.json({
-            
+                
                 state: 1
             });
         }
         
     });
     
-
-
-
+    
+    
+    
 })
 
 app.get('/allDevices', (req, res) => {
-   
+    
     const sql = `SELECT ID FROM  IOTDevices;`
     //console.log(sql)
-
+    
     
     
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
             console.log(err);
             res.json({
-            
+                
                 state: -1
             });
         }
         res.send(rows)
-
+        
     })
-
+    
     
 });
 
 app.get('/allCachedDevices', (req, res) => {
-   
+    
     
     //console.log(sql)
-
     
     
-   res.send(deviceIDs);
-
+    
+    res.send(deviceIDs);
+    
     
 });
 
 
 app.post('/authUser', (req, res) => {
-
-const {id} = req.body;
-
-
+    
+    const {id} = req.body;
+    
+    
     sql = "SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings";
-
+    
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
             console.log(err);
             res.json({
-            
+                
                 state: -1
             });
         }
         res.send(rows)
-
+        
     })
-
-
+    
+    
 })
 
 app.post('/authUser', (req, res) => {
     
     
     
-
+    
     console.log(req.body)
     
     let {fName, password, rememberMe} = req.body;
     
-  
-
-
-
+    
+    
+    
+    
     const sql = `SELECT * FROM  IOTUsers WHERE username = "${fName}" AND password = "${password}";`
     //console.log(sql)
-
+    
     
     
     connection.query(sql, function (err, rows, fields) { //Execute the SQL query
         if (err) {
             console.log(err);
             res.json({
-            
+                
                 state: -1
             });
         }
         
         if(rows.length == 1){
             
-           
             
-    
-
+            
+            
+            
             if(rememberMe){
                 console.log("rembebred for a while");
-
-              
                 
-            
+                
+                
+                
             }else{
-
-           
-            
-
+                
+                
+                
+                
             }
             res.json({
-
-              
-            
+                
+                
+                
                 state: 0
             });
             
         }else{
             console.log(rows.length);
             res.json({
-            
+                
                 state: 1
             });
         }
         
     });
     
-
-
-
+    
+    
+    
 })
-
-// POST request handler
-app.post('/input', (req, res) => {
-    
-    console.log("INPUT")
-    
-    // console.log(req.body);
-    
-    const {id, reading} = req.body;
-    
-    updateReadingsCache(id, reading);
-    
-    console.log(reading);
-    console.log(id);
-    const currentDate = new Date();
-    
-    // Pad the month and day with a leading zero if they are less than 10
-    const dateNow = currentDate.getFullYear() + '-' +
-    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
-    ('0' + currentDate.getDate()).slice(-2);
-    
-    const timeNow = currentDate.getHours() + '-' +
-    ('0' + (currentDate.getMinutes() + 1)).slice(-2) + '-' +
-    ('0' + currentDate.getSeconds()).slice(-2);
-    
-    const dateTimeNow = dateNow +" "+timeNow;
-    
-    
-    
-    if(deviceIDs.some(element => element == id)){
-        
-        const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved) VALUES ('${id}', '${reading}', '${dateTimeNow}');`
-        
-        
-        //console.log(sql)
-        
-        connection.query(sql, function (err, rows, fields) { //Execute the SQL query
-            if (err) {
-                console.log(err);
-              
-            }
-        });
-        
-        // Process the data here
-        res.json({
-            
-            ack: 0
-        });
-        
-    }else{
-        deviceIDs[deviceIDs.length] = id;
-        const lat = 0, long = 0;
-        
-        console.log("The dark path - DEVICE NOT RECOCNISED");
-        
-        const sql = `INSERT INTO IOTDevices (ID, LastContacted, DateAdded, latitude, longitude) VALUES ('${id}', '${dateTimeNow}', '${dateTimeNow}', '${lat}', '${long}');`
-        
-        
-        console.log(sql)
-        
-        connection.query(sql, function (err, rows, fields) { //Execute the SQL query
-            if (err) {
-                console.log(err);
-                
-            }
-        });
-        
-        
-    }
-});
 
 app.post('/inputCSV', (req, res) => {
     console.log("CSV DATA!");
@@ -493,8 +423,11 @@ app.post('/inputCSV', (req, res) => {
     
     const id = dataArr[0];
     const reading = dataArr[1];
+    const readingMax = dataArr[2];
+    const readingMin = dataArr[3];
     
-    updateReadingsCache(id, reading);
+    
+    updateReadingsCache(id, reading, readingMax, readingMin);
     
     
     const currentDate = new Date();
@@ -513,7 +446,7 @@ app.post('/inputCSV', (req, res) => {
     
     if(deviceIDs.some(element => element == id)){
         
-        const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved) VALUES ('${id}', '${reading}', '${dateTimeNow}');`
+        const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved, readingMax, readingMin) VALUES ('${id}', '${reading}', '${dateTimeNow}', '${readingMax}', '${readingMin});`
         
         
         //console.log(sql)
@@ -526,7 +459,7 @@ app.post('/inputCSV', (req, res) => {
         });
         
         // Process the data here
-      
+        
         
     }else{
         deviceIDs[deviceIDs.length] = id;
@@ -561,47 +494,6 @@ app.post('/inputCSV', (req, res) => {
     
 });
 
-app.post('/saveVirtualDevice', (req, res) => {
-    
-    const {id} = req.body;
-    
-    console.log(id);
-    
-    const lat = 0, long = 0;
-    
-    
-    const currentDate = new Date();
-    
-    // Pad the month and day with a leading zero if they are less than 10
-    const dateNow = currentDate.getFullYear() + '-' +
-    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
-    ('0' + currentDate.getDate()).slice(-2);
-    
-    const timeNow = currentDate.getHours() + '-' +
-    ('0' + (currentDate.getMinutes() )).slice(-2) + '-' +
-    ('0' + currentDate.getSeconds()).slice(-2);
-    
-    const dateTimeNow = dateNow +" "+timeNow;
-    
-    
-    deviceIDs[deviceIDs.length] = id;
-    
-    
-    //console.log(dateNow)
-    
-    const sql = `INSERT INTO IOTDevices (ID, LastContacted, DateAdded, latitude, longitude) VALUES ('${id}', '${dateTimeNow}', '${dateTimeNow}', '${lat}', '${long}');`
-    
-    
-    // console.log(sql)
-    
-    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
-        if (err) {
-            //console.log(err);
-            throw (err); //If an error occours, throw the error to prevent the program from crashing
-        }
-    });
-    
-});
 
 
 app.get('/getIOTDevices', (req, res) => {
