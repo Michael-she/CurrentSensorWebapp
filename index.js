@@ -45,10 +45,26 @@ const config = {
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
+
+/*
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
+});*/
+
+
+app.use(
+    auth({
+      routes: {
+        // Override the default login route to use your own login route as shown below
+        login: false,
+        // Pass a custom path to redirect users to a different
+        // path after logout.
+        postLogoutRedirect: '/custom-logout',
+        // Override the default callback route to use your own callback route as shown below
+      },
+    })
+  );
 
 
 const { requiresAuth } = require('express-openid-connect');
