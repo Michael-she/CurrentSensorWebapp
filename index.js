@@ -36,7 +36,7 @@ const { auth } = require('express-openid-connect');
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: 'hgfytry7865865fgyu5rex654765x53y7uxehjt53x',
+  secret: 'gebzznhHigFSBkwUKZu5YRQYAOx5iDajNFn_XbEKLC7zE3j95tgeikkyXxKV3oBh',
   baseURL: 'https://current-sensor-webapp.vercel.app',
   clientID: 'qJ8ZmMPsWiTnx3o29mhFmljgzTsaDxP9',
   routes: {
