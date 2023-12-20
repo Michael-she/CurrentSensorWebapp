@@ -54,11 +54,11 @@ const config = {
 app.use(auth(config));
 
 
-/*
+
 // req.isAuthenticated is provided from the auth router
-app.get('/', (req, res) => {
+app.get('/amLoggedIn', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});*/
+});
 
 
 
@@ -126,9 +126,9 @@ app.get('/InputValidation.js', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.oidc.login({
-        returnTo: '/landingpage',
+        returnTo: '/landingPage',
         authorizationParams: {
-          redirect_uri: 'https://current-sensor-webapp.vercel.app/landingpage',
+          redirect_uri: 'https://current-sensor-webapp.vercel.app/landingPage',
         },
       })
     
