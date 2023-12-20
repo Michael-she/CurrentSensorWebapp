@@ -1,8 +1,8 @@
 
-<div id="content"></div>
+<div id="content">Boo</div>
 <script>
-const filePath = path.join(__dirname, 'landingPage.html');
-  fetch(filePath)
+
+  fetch("/dashboard")
     .then(response => response.text())
     .then(data => {
       document.getElementById('content').innerHTML = data;
