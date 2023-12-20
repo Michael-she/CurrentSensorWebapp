@@ -154,7 +154,7 @@ app.get('/auth', (req, res) => {
     
     const filePath = path.join(__dirname, 'signupPage.html');
     //console.log(filePath);
-    res.sendFile(filePath);
+    res.redirect("/login");
 });
 
 
