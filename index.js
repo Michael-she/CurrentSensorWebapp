@@ -55,6 +55,15 @@ app.use(auth(config));
 
 
 
+
+//COOKIES!
+
+const cookieParser = require('cookie-parser');
+
+
+app.use(cookieParser());
+
+
 // req.isAuthenticated is provided from the auth router
 app.get('/amLoggedIn', (req, res) => {
     res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
@@ -136,6 +145,13 @@ app.get('/Oauth.js', (req, res) => {
 });
 
 
+app.get('/CookieManager.js', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'CookieManager.js');
+    // console.log(filePath);
+    res.sendFile(filePath);
+});
+
 app.get('/InputValidation.js', (req, res) => {
     
     const filePath = path.join(__dirname, 'InputValidation.js');
@@ -193,8 +209,9 @@ const {id} = req.body
 
 
 
-const sql = `SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings WHERE ID=${id}`
+const sql = `SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings WHERE ID='${id}'`
 
+console.log(sql);
 
 connection.query(sql, function (err, rows, fields) { //Execute the SQL query
     if (err) {

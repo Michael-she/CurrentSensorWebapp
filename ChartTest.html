@@ -44,19 +44,20 @@
 </head>
 <body>
     <svg width="600" height="400"></svg>
-    
+    <script src="CookieManager.js"></script>
     <script>
         
         
-        var id = sessionStorage.getItem("details");
-        sessionStorage.removeItem("details");
+        var id = getCookie("details");
+        console.log(id);
+        
         
         // Sample data with x and y values
         
-        const rawData = await(getData(id));
+        const rawData =getData(id);
         
 
-        console.log(getData(id));
+        console.log( getData(id));
 
         const dataMAX = [
         {x: 0, y: 10},
@@ -208,7 +209,7 @@ fetch('/getReadingsByID', {
 .then(response => response.json())
 .then(data => {
     
-   
+   console.log(data);
     return data;
 
 

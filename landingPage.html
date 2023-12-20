@@ -156,7 +156,8 @@
     function toDetailedView(id){
 
 
-        sessionStorage.setItem("details", id);
+        setCookie("details", id, 1);
+
         window.location.href = "/chartTest"
     }
     
@@ -219,6 +220,11 @@
     
     
     
+
+   
+
+
+
     function updateReadings(){
         
         
@@ -318,3 +324,5 @@
     
     
 </script>
+
+<script src = "CookieManager.js"></script>
