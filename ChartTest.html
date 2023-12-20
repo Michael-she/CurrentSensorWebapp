@@ -53,7 +53,7 @@
         
         // Sample data with x and y values
         
-        const rawData = getData(id);
+        const rawData = await(getData(id));
         
 
         console.log(getData(id));
@@ -193,7 +193,7 @@
         
         
         
-        function getData(id){
+        async function getData(id){
 
 
 fetch('/getReadingsByID', {
