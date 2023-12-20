@@ -48,7 +48,7 @@
     <script>
         
         
-        var id = getCookie("details");
+        var id = ""+getCookie("details");
         console.log(id);
         
         
@@ -56,9 +56,9 @@
         
         const rawData =getData(id);
         
-
+        
         console.log( getData(id));
-
+        
         const dataMAX = [
         {x: 0, y: 10},
         {x: 1, y: 15},
@@ -195,34 +195,34 @@
         
         
         async function getData(id){
-
-
-fetch('/getReadingsByID', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({id: id})
-    
-    
-})
-.then(response => response.json())
-.then(data => {
-    
-   console.log(data);
-    return data;
-
-
-})
-.catch((error) => {
-    alert("Sorry, an error occoured, if you see this screen, you shouldn't. Congrats?")
-    console.error('Error:', error);
-});
-
-
-
-
-}
+            
+            
+            fetch('/getReadingsByID', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({id: id})
+                
+                
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                console.log(data);
+                return data;
+                
+                
+            })
+            .catch((error) => {
+                alert("Sorry, an error occoured, if you see this screen, you shouldn't. Congrats?")
+                console.error('Error:', error);
+            });
+            
+            
+            
+            
+        }
         
     </script>
     

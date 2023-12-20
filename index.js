@@ -209,7 +209,7 @@ const {id} = req.body
 
 
 
-const sql = `SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings WHERE ID='${id}';`
+const sql = `SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings WHERE ID=${id};`
 
 console.log(sql);
 
