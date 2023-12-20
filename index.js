@@ -289,7 +289,7 @@ app.post('/checkOauth', (req, res) => {
 
 app.get('/allDevices', (req, res) => {
    
-    const sql = `SELECT ID FROM  IOTDEVICES ;`
+    const sql = `SELECT ID FROM  IOTDevices;`
     //console.log(sql)
 
     
