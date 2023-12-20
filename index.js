@@ -109,13 +109,13 @@ app.get('/InputValidation.js', (req, res) => {
     res.sendFile(filePath);
 });
 
-
+/*
 app.get('/login', (req, res) => {
     console.log("Default endpoint reached");
     
     res.redirect("/auth");
     
-})
+})*/
 app.get('/signup', (req, res) => {
     console.log("Default endpoint reached");
     
