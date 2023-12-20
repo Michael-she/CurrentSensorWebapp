@@ -309,7 +309,17 @@ app.get('/allDevices', (req, res) => {
     
 });
 
+app.get('/allCachedDevices', (req, res) => {
+   
+    
+    //console.log(sql)
 
+    
+    
+   res.send(deviceIDs);
+
+    
+});
 
 
 
