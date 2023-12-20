@@ -128,7 +128,7 @@ app.get('/login', (req, res) => {
     res.oidc.login({
         returnTo: '/landingpage',
         authorizationParams: {
-          redirect_uri: 'http://localhost:3000/callback',
+          redirect_uri: 'https://current-sensor-webapp.vercel.app/landingPage',
         },
       })
     
