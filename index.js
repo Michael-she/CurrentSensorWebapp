@@ -542,7 +542,7 @@ app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
-function updateReadingsCache(id, reading){
+function updateReadingsCache(id, reading, readingMax, readingMin){
     
     let chacheHit = false;
     
@@ -550,7 +550,8 @@ function updateReadingsCache(id, reading){
         if(readingsCache[i].ID == id){
             
             readingsCache[i].reading = reading;
-            
+            readingsCache[i].readingMax = readingMax;
+            readingsCache[i].readingMin = readingMin;
             chacheHit = true;
             const currentDate = new Date();
             
@@ -580,6 +581,8 @@ function updateReadingsCache(id, reading){
         readingsCache[readingsCache.length]={
             ID: id,
             reading: reading,
+            readingMax: readingMax, 
+            readingMin: readingMin,
             dateRecieved: currentDate
         } ;
         
