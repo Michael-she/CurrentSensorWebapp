@@ -183,7 +183,7 @@ app.get('/', (req, res) => {
 app.get('/getReadings', (req, res) => {
     
     res.send(readingsCache);
-    
+     
 })
 
 
@@ -286,6 +286,32 @@ app.post('/checkOauth', (req, res) => {
 
 
 })
+
+app.get('/allDevices', (req, res) => {
+   
+    const sql = `SELECT ID FROM  IOTDEVICES ;`
+    //console.log(sql)
+
+    
+    
+    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+        if (err) {
+            console.log(err);
+            res.json({
+            
+                state: -1
+            });
+        }
+        res.send(rows)
+
+    })
+
+    
+});
+
+
+
+
 
 app.post('/authUser', (req, res) => {
     
@@ -392,7 +418,7 @@ app.post('/input', (req, res) => {
         connection.query(sql, function (err, rows, fields) { //Execute the SQL query
             if (err) {
                 console.log(err);
-                throw (err); //If an error occours, throw the error to prevent the program from crashing
+              
             }
         });
         
@@ -416,7 +442,7 @@ app.post('/input', (req, res) => {
         connection.query(sql, function (err, rows, fields) { //Execute the SQL query
             if (err) {
                 console.log(err);
-                throw (err); //If an error occours, throw the error to prevent the program from crashing
+                
             }
         });
         
