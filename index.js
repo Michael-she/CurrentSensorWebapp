@@ -187,6 +187,32 @@ app.get('/getReadings', (req, res) => {
 })
 
 
+app.post('/getReadingsByID', (req, res) => {
+    
+const {id} = req.body
+
+
+
+const sql = `SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings WHERE ID=${id}`
+
+
+connection.query(sql, function (err, rows, fields) { //Execute the SQL query
+    if (err) {
+        // console.log(err);
+        throw (err); //If an error occours, throw the error to prevent the program from crashing
+    }
+    
+    // console.log(rows)
+    
+    res.send(rows);
+});
+    
+})
+
+
+
+
+
 app.post('/saveUser', (req, res) => {
     
     const currentDate = new Date();
@@ -322,94 +348,7 @@ app.get('/allCachedDevices', (req, res) => {
 });
 
 
-app.post('/authUser', (req, res) => {
-    
-    const {id} = req.body;
-    
-    
-    sql = "SELECT reading, readingMax, readingMin, dateRecieved FROM IOTReadings";
-    
-    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
-        if (err) {
-            console.log(err);
-            res.json({
-                
-                state: -1
-            });
-        }
-        res.send(rows)
-        
-    })
-    
-    
-})
 
-app.post('/authUser', (req, res) => {
-    
-    
-    
-    
-    console.log(req.body)
-    
-    let {fName, password, rememberMe} = req.body;
-    
-    
-    
-    
-    
-    const sql = `SELECT * FROM  IOTUsers WHERE username = "${fName}" AND password = "${password}";`
-    //console.log(sql)
-    
-    
-    
-    connection.query(sql, function (err, rows, fields) { //Execute the SQL query
-        if (err) {
-            console.log(err);
-            res.json({
-                
-                state: -1
-            });
-        }
-        
-        if(rows.length == 1){
-            
-            
-            
-            
-            
-            if(rememberMe){
-                console.log("rembebred for a while");
-                
-                
-                
-                
-            }else{
-                
-                
-                
-                
-            }
-            res.json({
-                
-                
-                
-                state: 0
-            });
-            
-        }else{
-            console.log(rows.length);
-            res.json({
-                
-                state: 1
-            });
-        }
-        
-    });
-    
-    
-    
-    
-})
 
 app.post('/inputCSV', (req, res) => {
     console.log("CSV DATA!");
