@@ -385,7 +385,7 @@ app.post('/inputCSV', (req, res) => {
     
     if(deviceIDs.includes(id)){
         
-        const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved, readingMax, readingMin) VALUES ('${id}', '${reading}', '${dateTimeNow}', '${readingMax}', '${readingMin});`
+        const sql = `INSERT INTO IOTReadings (ID, reading, dateRecieved, readingMax, readingMin) VALUES ('${id}', '${reading}', '${dateTimeNow}', '${readingMax}', '${readingMin}');`
         
         
         //console.log(sql)
