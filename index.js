@@ -47,7 +47,7 @@ const config = {
     postLogoutRedirect: '/custom-logout',
     // Override the default callback route to use your own callback route as shown below
   },
-  issuerBaseURL: 'https://current-sensor-webapp.vercel.app/auth'
+  issuerBaseURL: 'https://dev-feweogch7uuhq23l.us.auth0.com'
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
@@ -59,9 +59,7 @@ app.use(auth(config));
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });*/
-app.get('/amloggedIn', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-  });
+
 
 
 const { requiresAuth } = require('express-openid-connect');
