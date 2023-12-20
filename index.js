@@ -400,7 +400,7 @@ app.post('/inputCSV', (req, res) => {
         // Process the data here
         
         
-    }
+    }else{
         deviceIDs[deviceIDs.length] = id;
         const lat = 0, long = 0;
         
