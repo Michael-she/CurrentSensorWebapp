@@ -59,7 +59,9 @@ app.use(auth(config));
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });*/
-
+app.get('/amloggedIn', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+  });
 
 
 const { requiresAuth } = require('express-openid-connect');
