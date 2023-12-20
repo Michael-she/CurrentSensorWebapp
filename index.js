@@ -44,7 +44,7 @@ const config = {
     login: false,
     // Pass a custom path to redirect users to a different
     // path after logout.
-    postLogoutRedirect: '/custom-logout',
+    
     // Override the default callback route to use your own callback route as shown below
   },
   issuerBaseURL: 'https://dev-feweogch7uuhq23l.us.auth0.com'
@@ -137,7 +137,7 @@ app.get('/login', (req, res) => {
     res.oidc.login({
         returnTo: '/landingPage',
         authorizationParams: {
-          redirect_uri: 'https://current-sensor-webapp.vercel.app/landingPage',
+          redirect_uri: 'https://current-sensor-webapp.vercel.app/callback',
         },
       })
     
