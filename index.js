@@ -128,9 +128,12 @@ app.get('/InputValidation.js', (req, res) => {
 
 
 app.get('/login', (req, res) => {
-    console.log("Default endpoint reached");
-    
-    res.redirect("/auth");
+    res.oidc.login({
+        returnTo: '/profile',
+        authorizationParams: {
+          redirect_uri: 'http://localhost:3000/callback',
+        },
+      })
     
 })
 app.get('/signup', (req, res) => {
