@@ -289,7 +289,7 @@
         if (element) {
             element.style.backgroundColor = "grey";
         } else {
-            console.log("Element with ID '" + divId + "' not found.");
+          //  console.log("Element with ID '" + divId + "' not found.");
         }
     }
     
@@ -297,24 +297,27 @@
         var element = document.getElementById(`numberBlock${divId}`);
         if (element) {
             element.style.backgroundColor = "orange";
+            updateTime();
         } else {
-            console.log("Element with ID '" + divId + "' not found.");
+           // console.log("Element with ID '" + divId + "' not found.");
         }
     }
     function setBlockRed(divId) {
         var element = document.getElementById(`numberBlock${divId}`);
         if (element) {
             element.style.backgroundColor = "red";
+            updateTime();
         } else {
-            console.log("Element with ID '" + divId + "' not found.");
+           // console.log("Element with ID '" + divId + "' not found.");
         }
     }
     function setBlockGreen(divId) {
         var element = document.getElementById(`numberBlock${divId}`);
         if (element) {
             element.style.backgroundColor = "green";
+            updateTime();
         } else {
-            console.log("Element with ID '" + divId + "' not found.");
+          //  console.log("Element with ID '" + divId + "' not found.");
         }
     }
     

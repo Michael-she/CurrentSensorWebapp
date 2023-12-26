@@ -56,7 +56,7 @@
         
         getData(id).then(
         rawData=>{
-            console.log(rawData)
+           // console.log(rawData)
             populateGraph(rawData);
         }
         
@@ -66,7 +66,7 @@
         
         
         
-        const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+        const margin = { top: 50, right: 30, bottom: 30, left: 40 };
         const width = 647 - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
         
@@ -111,12 +111,12 @@
                 
                 
                 let x = secondsSinceDate(data[numReadings].dateRecieved)
-                dataMax[data.length-1-numReadings]= {x: x, y: data[numReadings].readingMax}
+                dataMax[data.length-1-numReadings]= {x: x, y: parseFloat(data[numReadings].readingMax)}
                // console.log(dataMax[numReadings].y)
-                console.log(dataMax[data.length-1-numReadings].y + " " +numReadings)
+               // console.log(dataMax[data.length-1-numReadings].y + " " +numReadings)
                 
-                dataMin[data.length-1-numReadings]= {x: x, y: data[numReadings].readingMin}
-                dataAve[data.length-1-numReadings]= {x: x, y: data[numReadings].reading}
+                dataMin[data.length-1-numReadings]= {x: x, y:  parseFloat(data[numReadings].readingMin)}
+                dataAve[data.length-1-numReadings]= {x: x, y:  parseFloat(data[numReadings].reading)}
                 
                 //console.log(numReadings)
                 numReadings--;
@@ -182,7 +182,11 @@
             const y = d3.scaleLinear()
             .domain([0, d3.max(dataMax, d => d.y)])
             .range([height, 0]);
-            
+
+            console.log(d3.scaleLinear()
+            .domain([0, d3.max(dataMax, d => d.y)])
+            .range([height, 0]))
+            console.log(d3.max(dataMax, d => d.y))
             // Line generator with curve
             const lineGenerator = d3.line()
             .curve(d3.curveMonotoneX)
@@ -204,12 +208,12 @@
             .tickFormat(d => d/3600 + ' hours')); // Format ticks to show 'hours'
             
             
-            console.log(d3.axisBottom(x))
+            
             
             
             svg.append("g")
             .attr("class", "axis")
-            .call(d3.axisLeft(y).ticks(4)); // Limit to 4 ticks
+            .call(d3.axisLeft(y)); // Limit to 4 ticks
             
             // Add the line
             svg.append("path")
