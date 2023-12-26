@@ -105,16 +105,18 @@
             
             let numReadings = data.length-1;   
            // console.log(data[numReadings].dateRecieved)
-            console.log(isDateWithin24HoursOfNow(data[numReadings].dateRecieved))
+           
             
             while(numReadings >= 0 && isDateWithin24HoursOfNow(data[numReadings].dateRecieved) ){
                 
                 
                 let x = secondsSinceDate(data[numReadings].dateRecieved)
-                dataMax[numReadings]= {x: x, y: data[numReadings].readingMax}
+                dataMax[data.length-1-numReadings]= {x: x, y: data[numReadings].readingMax}
+               // console.log(dataMax[numReadings].y)
+                console.log(dataMax[data.length-1-numReadings].y + " " +numReadings)
                 
-                dataMin[numReadings]= {x: x, y: data[numReadings].readingMin}
-                dataAve[numReadings]= {x: x, y: data[numReadings].reading}
+                dataMin[data.length-1-numReadings]= {x: x, y: data[numReadings].readingMin}
+                dataAve[data.length-1-numReadings]= {x: x, y: data[numReadings].reading}
                 
                 //console.log(numReadings)
                 numReadings--;
@@ -123,16 +125,18 @@
                 
             }
             
+     
             
-            
-           // console.log(dataMax)
-            
+            console.log(dataMax)
+          
             
             
             
             
             // Calculate the average
             const average = d3.mean(dataMax, d => d.y);
+
+            
             
             // Function to identify spikes
             function isSpike(point, index, array) {
