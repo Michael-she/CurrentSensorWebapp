@@ -159,6 +159,20 @@ app.get('/InputValidation.js', (req, res) => {
     res.sendFile(filePath);
 });
 
+app.get('/reactGraph', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'GraphPage.HTML');
+    //console.log(filePath);
+    res.sendFile(filePath);
+});
+
+
+app.get('/src/graph.js', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'src/graph.js');
+    //console.log(filePath);
+    res.sendFile(filePath);
+});
 
 app.get('/login', (req, res) => {
     res.oidc.login({
@@ -220,7 +234,7 @@ connection.query(sql, function (err, rows, fields) { //Execute the SQL query
     }
     
     // console.log(rows)
-    
+    console.log(rows[rows.length-1]);
     res.send(rows);
 });
     
@@ -388,13 +402,13 @@ app.post('/inputCSV', (req, res) => {
     
     const currentDate = new Date();
     // Pad the month and day with a leading zero if they are less than 10
-    const dateNow = currentDate.getFullYear() + '-' +
-    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
-    ('0' + currentDate.getDate()).slice(-2);
+    const dateNow = currentDate.getUTCFullYear() + '-' +
+    ('0' + (currentDate.getUCTMonth())).slice(-2) + '-' +
+    ('0' + currentDate.getUCTDate()).slice(-2);
     
-    const timeNow = currentDate.getHours() + '-' +
-    ('0' + (currentDate.getMinutes() + 1)).slice(-2) + '-' +
-    ('0' + currentDate.getSeconds()).slice(-2);
+    const timeNow = currentDate.getUCTHours() + '-' +
+    ('0' + (currentDate.getUCTMinutes())).slice(-2) + '-' +
+    ('0' + currentDate.getUCTSeconds()).slice(-2);
     
     const dateTimeNow = dateNow +" "+timeNow;
     
