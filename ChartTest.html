@@ -114,7 +114,7 @@
             while(numReadings >= 0 && isDateWithin24HoursOfNow(data[numReadings].dateRecieved) ){
                 
                 
-                let x = secondsSinceDate(data[numReadings].dateRecieved)
+                let x = secondsSinceDate(data[numReadings].dateRecieved) + 7200
                 dataMax[data.length-1-numReadings]= {x: x, y: parseFloat(data[numReadings].readingMax)}
                // console.log(dataMax[numReadings].y)
                // console.log(dataMax[data.length-1-numReadings].y + " " +numReadings)
@@ -126,7 +126,7 @@
                 numReadings--;
                 
                 
-                console.log(data[numReadings].dateRecieved.toLocaleDateString())
+               // console.log(data[numReadings].dateRecieved.toLocaleDateString())
             }
             
      
