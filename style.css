@@ -1,0 +1,16 @@
+.display-box {
+    border: 2px solid black; /* Creates the border around the box */
+    padding: 20px; /* Space between the content and border */
+    margin: 20px; /* Space outside the border */
+    text-align: left; /* Aligns text to the left */
+}
+
+.display-box h2 {
+    text-align: center; /* Aligns title to the center */
+    margin-bottom: 20px; /* Space between title and checkboxes */
+}
+
+.checkbox-group label {
+    display: block; /* Each label is on a new line, arranging checkboxes vertically */
+    margin-bottom: 10px; /* Space between each checkbox */
+}

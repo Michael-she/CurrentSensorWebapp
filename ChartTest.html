@@ -44,9 +44,45 @@
 </head>
 <body>
     <svg width="600" height="400"></svg>
+    
+    <div class="display-box">
+        <h2>Display</h2>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="current" value="max"> Maximum Current</label>
+            <label><input type="checkbox" name="current" value="avg"> Average Current</label>
+            <label><input type="checkbox" name="current" value="min"> Minimum Current</label>
+        </div>
+    </div>
+
+
+
+
+
+
+    <select name="timeOptions">
+        <option value="1m">1 minute</option>
+        <option value="10m">10 minutes</option>
+        <option value="30m">30 minutes</option>
+        <option value="1h">1 hour</option>
+        <option value="5h">5 hours</option>
+        <option value="24h">24 hours</option>
+        <option value="72h">72 hours</option>
+        <option value="1w">1 week</option>
+        <option value="1mo">1 month</option>
+        <option value="6mo">6 months</option>
+        <option value="1y">1 year</option>
+        <option value="5y">5 years</option>
+      </select>
+
+      
+
+
     <script src="CookieManager.js"></script>
+    <script src="graphManager.js"></script>
     <script>
         
+        var allData;
+
         
         var id = ""+getCookie("details")
         
@@ -57,8 +93,9 @@
         getData(id).then(
         rawData=>{
             
-            populateGraph(rawData);
+            populateGraph(rawData, 3600);
             console.log(rawData)
+            allData = rawData;
         }
         
         );
@@ -78,6 +115,9 @@
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+        initSVG();
+
+        function initSVG(){
         // Draw X axis line as a placeholder
         svg.append("line")
         .attr("x1", 0)
@@ -93,242 +133,65 @@
         .attr("x2", 0)
         .attr("y2", height)
         .attr("stroke", "black");
-        
-        
-        
-        
-        function populateGraph(data){
-            
-            var dataMax=[];
-            let dataMin=[];
-            let dataAve=[];
-            
-            
-            let numReadings = data.length-1;
-            console.log(data);
-            console.log("Awooga!");   
-            console.log(data[numReadings].dateRecieved)
-           
 
-            
-            while(numReadings >= 0 && isDateWithin24HoursOfNow(data[numReadings].dateRecieved) ){
-                
-                
-                let x = secondsSinceDate(data[numReadings].dateRecieved) + 7200
-                dataMax[data.length-1-numReadings]= {x: x, y: parseFloat(data[numReadings].readingMax)}
-               // console.log(dataMax[numReadings].y)
-               // console.log(dataMax[data.length-1-numReadings].y + " " +numReadings)
-                
-                dataMin[data.length-1-numReadings]= {x: x, y:  parseFloat(data[numReadings].readingMin)}
-                dataAve[data.length-1-numReadings]= {x: x, y:  parseFloat(data[numReadings].reading)}
-                
-                //console.log(numReadings)
-                numReadings--;
-                
-                
-               // console.log(data[numReadings].dateRecieved.toLocaleDateString())
-            }
-            
-     
-             
-            console.log(dataMax)
-            
-            
-            
-            
-            
-            // Calculate the average
-            const average = d3.mean(dataMax, d => d.y);
-
-            
-            
-            // Function to identify spikes
-            function isSpike(point, index, array) {
-    if (index === 0 || index === array.length - 1) return false; // Ignore first and last points
-    
-    // Check if the point is higher than the previous and next points
-    let prev = array[index - 1];
-    let next = array[index + 1];
-    if (!(point.y > prev.y && point.y > next.y)) return false;
-
-    // Check if the point is the highest in the 3600 points range on either side
-    let start = Math.max(0, index - 1800);
-    let end = Math.min(array.length - 1, index + 1800);
-    for (let i = start; i <= end; i++) {
-        if (i !== index && array[i].y >= point.y) return false;
-    }
-
-    return true; // The point is a spike
-}
-
-            // // Filter for spikes
-            
-            
-            // Calculate Q1, Q3, and IQR
-            const sortedY = dataMax.map(d => d.y).sort(d3.ascending);
-            const q1 = d3.quantile(sortedY, 0.25);
-            const q3 = d3.quantile(sortedY, 0.75);
-            const iqr = q3 - q1;
-            const upperOutlierThreshold = q3 + 1.5 * iqr;
-            
-            // Filter for upper outliers
-            const upperOutliers = dataMax.filter(d => d.y > upperOutlierThreshold);
-            
-            const spikes = dataMax.filter(isSpike).filter(d => d.y > upperOutlierThreshold);
-            // Set up dimensions
-            
-            // Create scales
-            const x = d3.scaleLinear()
-            .domain([60*60*24, 0])
-            .range([0, width]);
-            console.log(d3.extent(dataMax, d => d.x))
-            
-            const y = d3.scaleLinear()
-            .domain([0, d3.max(dataMax, d => d.y)])
-            .range([height, 0]);
-
-            console.log(d3.scaleLinear()
-            .domain([0, d3.max(dataMax, d => d.y)])
-            .range([height, 0]))
-            console.log(d3.max(dataMax, d => d.y))
-            // Line generator with curve
-            const lineGenerator = d3.line()
-            .curve(d3.curveMonotoneX)
-            .x(d => x(d.x))
-            .y(d => y(d.y));
-            
-            // Append SVG to the body
-            
-            
-            
-            
-            
-            
-            svg.append("g")
-            .attr("class", "axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x)
-            .tickValues([0, 6*3600, 12*3600, 18*3600, 24*3600]) // Explicitly setting tick values
-            .tickFormat(d => d/3600 + ' hours')); // Format ticks to show 'hours'
-            
-            
-            
-            
-            
-            svg.append("g")
-            .attr("class", "axis")
-            .call(d3.axisLeft(y)); // Limit to 4 ticks
-            
-            // Add the line
-            svg.append("path")
-            .datum(dataMax)
-            .attr("class", "line line1")
-            .attr("d", lineGenerator);
-            
-            svg.append("path")
-            .datum(dataAve)
-            .attr("class", "line line2")
-            .attr("d", lineGenerator);
-            
-            svg.append("path")
-            .datum(dataMin)
-            .attr("class", "line line3")
-            .attr("d", lineGenerator);
-            
-            // Add the X Axis
-            
-            
-            // Add the Y Axis
-            
-            
-            
-            
-            
-            spikes.forEach(spike => {
-                svg.append("text")
-                .attr("class", "spike")
-                .attr("x", x(spike.x))
-                .attr("y", y(spike.y))
-                .attr("dy", "-0.5em") // Adjust position above the point
-                .text(`${spike.y}A`);
-            });
-            
-            
-            spikes.forEach(spike => {
-                svg.append("line")
-                .attr("class", "spike-line")
-                .attr("x1", x(spike.x) - 20) // 20 pixels to the left of the spike
-                .attr("y1", y(spike.y))
-                .attr("x2", x(spike.x) + 20) // 20 pixels to the right of the spike
-                .attr("y2", y(spike.y));
-            });
-            
         }
+        
+        
+        
+        document.querySelector('select[name="timeOptions"]').addEventListener('change', function() {
+    var timeInSeconds = {
+        '1m': 60, // 1 minute
+        '10m': 600, // 10 minutes
+        '30m': 1800, // 30 minutes
+        '1h': 3600, // 1 hour
+        '5h': 18000, // 5 hours
+        '24h': 86400, // 24 hours
+        '72h': 259200, // 72 hours
+        '1w': 604800, // 1 week
+        '1mo': 2628000, // 1 month (approx 30.44 days)
+        '6mo': 15768000, // 6 months
+        '1y': 31536000, // 1 year
+        '5y': 157680000 // 5 years
+    };
+    
+    var selectedOption = this.value;
+    var seconds = timeInSeconds[selectedOption] || 0;
+    console.log(seconds + " seconds"); // Output to console or modify to output elsewhere
+    svg.selectAll("*").remove();
+    initSVG();
+    populateGraph(allData, seconds);
+});
+
+
+
+       
         
         async function getData(id) {
-            return new Promise((resolve, reject) => {
-                fetch('/getReadingsByID', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({id: id})
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    
-                    resolve(data);
-                })
-                .catch((error) => {
-                    alert("Sorry, an error occurred. Please try again.");
-                    console.error('Error:', error);
-                    reject(error);
-                });
-            });
-        }
-        
-        
-        
-        
-        function isDateWithin24HoursOfNow(specificDate) {
-            // Get the current date and time
-            var currentDate = new Date();
+    return new Promise((resolve, reject) => {
+        fetch('/getReadingsByID', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({id: id})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
             
-            // Convert both dates to milliseconds
-            var time1 = new Date(specificDate).getTime();
-            var time2 = currentDate.getTime();
-            
-            // Calculate the difference in milliseconds
-            var difference = Math.abs(time1 - time2);
-            //console.log(difference);
-            // Compare the difference with 24 hours in milliseconds
-            return difference <= 24 * 60 * 60 * 1000;
-        }
-        
-        function secondsSinceDate(pastDate) {
-            // Get the current date and time
-            var currentDate = new Date();
-            
-            // Convert both dates to milliseconds
-            var pastTime = new Date(pastDate).getTime();
-            var currentTime = currentDate.getTime();
-            
-            // Calculate the difference in milliseconds
-            var differenceInMilliseconds = currentTime - pastTime;
-            
-            // Convert the difference to seconds (1 second = 1000 milliseconds)
-            var differenceInSeconds = differenceInMilliseconds / 1000;
-            
-            return differenceInSeconds-(3600*2);
-        }
-        
-        
-        
+            resolve(data);
+        })
+        .catch((error) => {
+            alert("Sorry, an error occurred. Please try again.");
+            console.error('Error:', error);
+            reject(error);
+        });
+    });
+} 
         
     </script>
     

@@ -152,6 +152,13 @@ app.get('/CookieManager.js', (req, res) => {
     res.sendFile(filePath);
 });
 
+app.get('/graphManager.js', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'graphManager.js');
+    // console.log(filePath);
+    res.sendFile(filePath);
+});
+
 app.get('/InputValidation.js', (req, res) => {
     
     const filePath = path.join(__dirname, 'InputValidation.js');
