@@ -56,8 +56,9 @@
         
         getData(id).then(
         rawData=>{
-            console.log(rawData)
+            
             populateGraph(rawData);
+            console.log(rawData)
         }
         
         );
@@ -104,7 +105,8 @@
             
             
             let numReadings = data.length-1;
-            console.log(data)   
+            console.log(data);
+            console.log("Awooga!");   
             console.log(data[numReadings].dateRecieved)
            
             
@@ -127,9 +129,9 @@
             }
             
      
-            
+             
             console.log(dataMax)
-          
+            
             
             
             
