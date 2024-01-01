@@ -93,9 +93,10 @@
         getData(id).then(
         rawData=>{
             
-            populateGraph(rawData, 3600);
+           
             console.log(rawData)
             allData = rawData;
+            populateGraph(rawData, 3600*24);
         }
         
         );

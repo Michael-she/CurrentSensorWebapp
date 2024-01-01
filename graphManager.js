@@ -1,12 +1,12 @@
 
 
 function populateGraph(data, numSeconds){
-            
-
     
-
-
-
+    
+    
+    
+    
+    
     var dataMax=[];
     let dataMin=[];
     let dataAve=[];
@@ -16,13 +16,13 @@ function populateGraph(data, numSeconds){
     console.log(data);
     console.log("Awooga!");   
     console.log(data[numReadings].dateRecieved)
-    
+    console.log(numSeconds)
     
     
     while(numReadings >= 0 && checkDateTime(data[numReadings].dateRecieved, numSeconds) ){
         
         
-        let x = secondsSinceDate(data[numReadings].dateRecieved) + 7200
+        let x = secondsSinceDate(data[numReadings].dateRecieved) - 3600
         dataMax[data.length-1-numReadings]= {x: x, y: parseFloat(data[numReadings].readingMax)}
         // console.log(dataMax[numReadings].y)
         // console.log(dataMax[data.length-1-numReadings].y + " " +numReadings)
@@ -111,14 +111,99 @@ function populateGraph(data, numSeconds){
     
     
     
-    /*
-    svg.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x)
-    .tickValues([0, 6*3600, 12*3600, 18*3600, 24*3600]) // Explicitly setting tick values
-    .tickFormat(d => d/3600 + ' hours')); // Format ticks to show 'hours'
-    */
+    switch (numSeconds){
+
+        case (60): // 1 minute
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 15, 30, 45, 60]) // Explicitly setting tick values
+        .tickFormat(d => d/60 + ' Seconds')); // Format ticks to show 'hours'
+        break;
+
+        
+        case (10*60): // 10 minutes
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 60*2, 60*4, 60*6, 60*8, 60*10]) // Explicitly setting tick values
+        .tickFormat(d => d/60 + ' Minutes')); // Format ticks to show 'hours'
+        break;
+
+
+        case (30*60): // 30 minutes
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 60*10, 60*20, 60*30]) // Explicitly setting tick values
+        .tickFormat(d => d/60 + ' Minutes')); // Format ticks to show 'hours'
+        break;
+
+
+        case (1*3600): // 1 hour
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 60*15, 60*30, 60*45, 60*60]) // Explicitly setting tick values
+        .tickFormat(d => d/60 + ' Minutes')); // Format ticks to show 'hours'
+        break;
+        
+       
+        
+        case (5*3600): // 5 hours
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 1*3600, 2*3600, 3*3600, 4*3600, 5*3600]) // Explicitly setting tick values
+        .tickFormat(d => d/3600 + ' hours')); // Format ticks to show 'hours'
+        break;
+        
+        
+        case (24*3600): // 24 Hours
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 6*3600, 12*3600, 18*3600, 24*3600]) // Explicitly setting tick values
+        .tickFormat(d => d/3600 + ' hours')); // Format ticks to show 'hours'
+        break;
+
+        case (72*3600): // 72 Hours
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 12*3600, 24*3600, 36*3600, 48*3600, 60*3600, 72*3600]) // Explicitly setting tick values
+        .tickFormat(d => d/3600 + ' hours')); // Format ticks to show 'hours'
+        break;
+
+        case (7*24*3600): // Week
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 24*3600, 24*3600*2, 24*3600*3, 24*3600*4, 24*3600*5, 24*3600*6, 24*3600*7]) // Explicitly setting tick values
+        .tickFormat(d => d/(3600*24) + ' days')); // Format ticks to show 'hours'
+        break;
+
+
+        case (24*3600): // month
+        svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+        .tickValues([0, 6*3600, 12*3600, 18*3600, 24*3600]) // Explicitly setting tick values
+        .tickFormat(d => d/3600 + ' hours')); // Format ticks to show 'hours'
+        break;
+        
+    }
+    
+    
     
     
     
@@ -175,7 +260,7 @@ function checkDateTime(specificDate, inSeconds) {
     var currentDate = new Date();
     
     // Convert both dates to milliseconds
-    var time1 = new Date(specificDate).getTime()+7200*1000;
+    var time1 = new Date(specificDate).getTime()+3600*3*1000; //3 hours for some reason???
     var time2 = currentDate.getTime();
     
     // Calculate the difference in milliseconds
@@ -203,4 +288,3 @@ function secondsSinceDate(pastDate) {
 }
 
 
-       
