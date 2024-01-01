@@ -109,6 +109,7 @@
             console.log("Awooga!");   
             console.log(data[numReadings].dateRecieved)
            
+
             
             while(numReadings >= 0 && isDateWithin24HoursOfNow(data[numReadings].dateRecieved) ){
                 
@@ -125,7 +126,7 @@
                 numReadings--;
                 
                 
-                
+                console.log(data[numReadings].dateRecieved.toLocaleDateString())
             }
             
      
