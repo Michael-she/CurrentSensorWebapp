@@ -4,7 +4,7 @@ const bodyParser = require('body-parser'); // Import the body-parser library for
 
 const express = require('express'); // Express is the basis of all of these apps
 const app = express();
-const port = 5000;
+const port = 3000;
 const path = require('path'); // Import the path module for working with file paths
 
 const mysql = require('mysql2'); //Package for mySQL
@@ -605,7 +605,6 @@ function startUp(){
         for(let i  = 0 ; i<rows.length; i++){
             
             readingsCache[i] = rows[i];
-            console.log(rows[i])
             
             
             
