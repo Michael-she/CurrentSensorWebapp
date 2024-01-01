@@ -56,8 +56,9 @@
         
         getData(id).then(
         rawData=>{
-           // console.log(rawData)
+            
             populateGraph(rawData);
+            console.log(rawData)
         }
         
         );
@@ -103,8 +104,10 @@
             let dataAve=[];
             
             
-            let numReadings = data.length-1;   
-           // console.log(data[numReadings].dateRecieved)
+            let numReadings = data.length-1;
+            console.log(data);
+            console.log("Awooga!");   
+            console.log(data[numReadings].dateRecieved)
            
             
             while(numReadings >= 0 && isDateWithin24HoursOfNow(data[numReadings].dateRecieved) ){
@@ -126,9 +129,9 @@
             }
             
      
-            
+             
             console.log(dataMax)
-          
+            
             
             
             
