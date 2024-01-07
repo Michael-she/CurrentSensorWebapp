@@ -410,7 +410,7 @@ app.post('/inputCSV', (req, res) => {
     const currentDate = new Date();
     // Pad the month and day with a leading zero if they are less than 10
     const dateNow = currentDate.getUTCFullYear() + '-' +
-    ('0' + (currentDate.getUCTMonth())).slice(-2) + '-' +
+    ('0' + (currentDate.getUTCMonth())).slice(-2) + '-' +
     ('0' + currentDate.getUCTDate()).slice(-2);
     
     const timeNow = currentDate.getUCTHours() + '-' +
