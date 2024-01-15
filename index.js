@@ -173,6 +173,12 @@ app.get('/reactGraph', (req, res) => {
     res.sendFile(filePath);
 });
 
+app.get('/reactTest', (req, res) => {
+    
+    const filePath = path.join(__dirname, 'reactTest.js');
+    //console.log(filePath);
+    res.sendFile(filePath);
+});
 
 app.get('/src/graph.js', (req, res) => {
     
@@ -582,7 +588,7 @@ function updateReadingsCache(id, reading, readingMax, readingMin){
 
 
 function startUp(){
-    
+  /*  
     const sql = `SELECT * FROM IOTDevices;`
     
     
@@ -633,6 +639,6 @@ function startUp(){
         
         //  console.log(readingsCache);
     });
-    
+    */
     
 }
